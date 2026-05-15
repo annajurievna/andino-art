@@ -2,9 +2,9 @@
   "name": "tatoo",
   "version": "1.0.0",
   "description": "Andino Art — Tattoo Studio landing page",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node src/server.js"
   },
   "dependencies": {
     "better-sqlite3": "^12.10.0",

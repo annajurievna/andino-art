@@ -7,14 +7,17 @@ const path    = require('path');
 const fs      = require('fs');
 
 const app = express();
+const root = path.join(__dirname, '..');
+
 app.use(express.json());
 app.get('/booking', (req, res) => res.sendFile(path.join(__dirname, 'booking.html')));
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname)));          // serves src/ (HTML)
+app.use('/data',    express.static(path.join(root, 'data')));    // serves images
+app.use('/uploads', express.static(path.join(root, 'uploads'))); // serves uploads
 
 // ── Uploads directory ──────────────────────────────────────────
-const uploadsDir = path.join(__dirname, 'uploads');
+const uploadsDir = path.join(root, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
-app.use('/uploads', express.static(uploadsDir));
 
 const storage = multer.diskStorage({
   destination: uploadsDir,
@@ -26,7 +29,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
 
 // ── Database setup ─────────────────────────────────────────────
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'bookings.db');
+const DB_PATH = process.env.DB_PATH || path.join(root, 'bookings.db');
 const db = new Database(DB_PATH);
 
 db.exec(`
