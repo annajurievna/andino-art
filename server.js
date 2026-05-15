@@ -58,7 +58,7 @@ async function sendWhatsApp(message, mediaUrl) {
   );
   const params = {
     from: 'whatsapp:' + process.env.TWILIO_WHATSAPP_FROM,
-    to:   'whatsapp:+34692164559',
+    to:   'whatsapp:+34698939538',
     body: message
   };
   if (mediaUrl) params.mediaUrl = [mediaUrl];
