@@ -5,6 +5,9 @@ const Database = require('better-sqlite3');
 const multer  = require('multer');
 const path    = require('path');
 const fs      = require('fs');
+const { google } = require('googleapis');
+
+const SHEET_ID = '1c0L1dhGTlKvoRYiQC5azFilTa4sUojVLbqnN4z5H-w8';
 
 const app = express();
 const root = path.join(__dirname, '..');
@@ -52,6 +55,38 @@ const insertBooking = db.prepare(`
   INSERT INTO bookings (name, email, whatsapp, slot, size, lang, design, design_note, design_image)
   VALUES (@name, @email, @whatsapp, @slot, @size, @lang, @design, @designNote, @designImage)
 `);
+
+// ── Append booking to Google Sheet ────────────────────────────
+async function appendToSheet(data) {
+  if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) return;
+  try {
+    const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
+    const sheets = google.sheets({ version: 'v4', auth });
+    const imageUrl = data.designImage
+      ? `${process.env.BASE_URL || ''}/uploads/${data.designImage}`
+      : '';
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: SHEET_ID,
+      range: 'Sheet1!A:I',
+      valueInputOption: 'RAW',
+      requestBody: {
+        values: [[
+          new Date().toLocaleString('es-ES'),
+          data.name, data.email, data.whatsapp,
+          data.slot, data.size, data.lang,
+          data.design, data.designNote, imageUrl
+        ]]
+      }
+    });
+    console.log('[sheets] Row appended');
+  } catch (e) {
+    console.error('[sheets] Error:', e.message);
+  }
+}
 
 // ── Send WhatsApp via Twilio ───────────────────────────────────
 async function sendWhatsApp(message, mediaUrl) {
@@ -112,7 +147,10 @@ app.post('/api/booking', upload.single('designImage'), async (req, res) => {
     return res.status(500).json({ ok: false, error: 'Database error' });
   }
 
-  // 2 — WhatsApp message
+  // 2 — Append to Google Sheet
+  appendToSheet({ name, email, whatsapp, slot, size, lang, design: design || '', designNote: designNote || '', designImage: imageFilename });
+
+  // 3 — WhatsApp message
   const msg = lang === 'en'
     ? `🎨 *New Booking — Andino Art*\n\n👤 Name: ${name}\n📧 Email: ${email}\n📱 WhatsApp: ${whatsapp}\n📅 Slot: ${slot}\n📐 Size: ${sizeLabel}\n✏️ Design: ${designLabel}${designDetail}`
     : `🎨 *Nueva Reserva — Andino Art*\n\n👤 Nombre: ${name}\n📧 Email: ${email}\n📱 WhatsApp: ${whatsapp}\n📅 Horario: ${slot}\n📐 Tamaño: ${sizeLabel}\n✏️ Diseño: ${designLabel}${designDetail}`;
