@@ -55,6 +55,8 @@ nav.scrolled{border-bottom-color:rgba(201,168,76,.25)}
 .page-sub{font-size:.9rem;color:var(--muted);margin-top:.8rem}
 .page-rule{width:44px;height:1px;background:var(--gold);opacity:.5;margin:.9rem auto 0}
 
+/* ── PAGE HEADER BUTTONS ── */
+.page-header-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.4rem}
 /* ── BOOKING LAYOUT ── */
 .booking-body{background:var(--surface);padding:3.5rem 2rem 5rem}
 .book-layout{display:grid;grid-template-columns:1.35fr 1fr;gap:4rem;align-items:start}
@@ -200,6 +202,10 @@ footer a:hover{color:var(--gold)}
   <p class="page-eyebrow" data-i18n="bookLabel">Ocupa tu Lugar</p>
   <h1 class="page-h1" data-i18n="bookTitle">Reserva tu sesión.</h1>
   <p class="page-sub" data-i18n="bookSubtitle">Elige un horario, completa el formulario y te contactaré en menos de 24 horas.</p>
+  <div class="page-header-btns">
+    <a href="/#gallery" class="btn btn-ghost" data-i18n="headerGalleryBtn">Ver trabajos</a>
+    <a href="/#about"   class="btn btn-ghost" data-i18n="headerAboutBtn">Sobre el artista</a>
+  </div>
   <div class="page-rule"></div>
 </div>
 
@@ -338,6 +344,8 @@ footer a:hover{color:var(--gold)}
       confirmH3:       'Solicitud Recibida',
       confirmP:        '¡Gracias! Me pondré en contacto por WhatsApp en menos de 24 horas para confirmar tu sesión y coordinar el depósito.',
       bookAnother:     'Hacer otra reserva',
+      headerGalleryBtn:'Ver trabajos',
+      headerAboutBtn:  'Sobre el artista',
       footerDesc:      'Artista de Tatuajes',
       rights:          'Todos los derechos reservados.',
       days:   ['Lun','Mar','Mié','Jue','Vie','Sáb'],
@@ -372,6 +380,8 @@ footer a:hover{color:var(--gold)}
       confirmH3:       'Request Received',
       confirmP:        'Thanks! I\'ll reach out via WhatsApp within 24 hours to confirm your session and arrange the deposit.',
       bookAnother:     'Book another session',
+      headerGalleryBtn:'View portfolio',
+      headerAboutBtn:  'About the artist',
       footerDesc:      'Tattoo Artist',
       rights:          'All rights reserved.',
       days:   ['Mon','Tue','Wed','Thu','Fri','Sat'],
