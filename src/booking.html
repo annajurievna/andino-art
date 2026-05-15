@@ -77,6 +77,9 @@ nav.scrolled{border-bottom-color:rgba(201,168,76,.25)}
 .slot.on{background:var(--gold-dk);border-color:var(--gold);color:var(--white)}
 .slot.past{opacity:.28;cursor:default;pointer-events:none}
 .slot-legend{display:flex;gap:1.4rem;margin-top:.9rem;font-size:.68rem;color:var(--muted)}
+.cal-contact{margin-top:.9rem;font-size:.72rem;color:var(--muted)}
+.cal-contact a{color:var(--gold-dk);text-decoration:none;transition:color .2s}
+.cal-contact a:hover{color:var(--gold)}
 .leg{display:flex;align-items:center;gap:.45rem}
 .leg-box{width:9px;height:9px;border:1px solid}
 .leg-box.av{border-color:var(--border)}
@@ -229,6 +232,7 @@ footer a:hover{color:var(--gold)}
           <div class="leg"><div class="leg-box av"></div> <span data-i18n="legAvail">Disponible</span></div>
           <div class="leg"><div class="leg-box sel"></div> <span data-i18n="legSel">Seleccionado</span></div>
         </div>
+        <p class="cal-contact"><span data-i18n="calContact">¿Dudas?</span> <a href="https://wa.me/34694283631" target="_blank" rel="noopener" data-i18n="calContactLink">Escríbenos por WhatsApp</a></p>
       </div>
 
       <!-- FORM -->
@@ -326,6 +330,7 @@ footer a:hover{color:var(--gold)}
       bookSubtitle:    'Elige un horario, completa el formulario y te contactaré en menos de 24 horas.',
       slotsH3:         'Elige un horario disponible',
       legAvail:        'Disponible', legSel: 'Seleccionado',
+      calContact:      '¿Dudas?', calContactLink: 'Escríbenos por WhatsApp',
       formH3:          'Tus datos',
       labelName:       'Nombre Completo', labelEmail: 'Correo Electrónico',
       labelWa:         'Número de WhatsApp', labelSlot: 'Horario Preferido', labelSize: 'Tamaño del Tatuaje',
@@ -362,6 +367,7 @@ footer a:hover{color:var(--gold)}
       bookSubtitle:    'Pick a slot, fill in the form, and I\'ll reach out within 24 hours.',
       slotsH3:         'Pick an available time slot',
       legAvail:        'Available', legSel: 'Selected',
+      calContact:      'Any questions?', calContactLink: 'Contact us on WhatsApp',
       formH3:          'Your details',
       labelName:       'Full Name', labelEmail: 'Email Address',
       labelWa:         'WhatsApp Number', labelSlot: 'Preferred Time Slot', labelSize: 'Tattoo Size',

@@ -148,6 +148,9 @@ section{padding:6rem 2rem}
 .slot.on{background:var(--gold-dk);border-color:var(--gold);color:var(--white)}
 .slot-hint{font-size:.65rem;color:var(--muted);margin-top:.6rem;opacity:.6}
 .slot-legend{display:flex;gap:1.4rem;margin-top:.9rem;font-size:.68rem;color:var(--muted)}
+.cal-contact{margin-top:.9rem;font-size:.72rem;color:var(--muted)}
+.cal-contact a{color:var(--gold-dk);text-decoration:none;transition:color .2s}
+.cal-contact a:hover{color:var(--gold)}
 .leg{display:flex;align-items:center;gap:.45rem}
 .leg-box{width:9px;height:9px;border:1px solid}
 .leg-box.av{border-color:var(--border)}
@@ -546,6 +549,7 @@ footer a:hover{color:var(--gold)}
           <div class="leg"><div class="leg-box sel"></div> <span data-i18n="legSel">Seleccionado</span></div>
           <div class="leg"><div class="leg-box off"></div> <span data-i18n="legOff">No disponible</span></div>
         </div>
+        <p class="cal-contact"><span data-i18n="calContact">¿Dudas?</span> <a href="https://wa.me/34694283631" target="_blank" rel="noopener" data-i18n="calContactLink">Escríbenos por WhatsApp</a></p>
       </div>
       <div class="form-section">
         <h3 data-i18n="formH3">Tus datos</h3>
@@ -705,6 +709,7 @@ footer a:hover{color:var(--gold)}
       bookTitle:    'Reserva tu sesión.',
       slotsH3:      'Elige un horario disponible',
       legAvail:     'Disponible', legSel: 'Seleccionado', legOff: 'No disponible',
+      calContact:   '¿Dudas?', calContactLink: 'Escríbenos por WhatsApp',
       formH3:       'Tus datos',
       labelName:    'Nombre Completo', labelEmail: 'Correo Electrónico',
       labelWa:      'Número de WhatsApp', labelSlot: 'Horario Preferido', labelSize: 'Tamaño del Tatuaje',
@@ -803,6 +808,7 @@ footer a:hover{color:var(--gold)}
       bookTitle:    'Book your session.',
       slotsH3:      'Pick an available time slot',
       legAvail:     'Available', legSel: 'Selected', legOff: 'Unavailable',
+      calContact:   'Any questions?', calContactLink: 'Contact us on WhatsApp',
       formH3:       'Your details',
       labelName:    'Full Name', labelEmail: 'Email Address',
       labelWa:      'WhatsApp Number', labelSlot: 'Preferred Time Slot', labelSize: 'Tattoo Size',
