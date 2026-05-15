@@ -56,6 +56,45 @@ const insertBooking = db.prepare(`
   VALUES (@name, @email, @whatsapp, @slot, @size, @lang, @design, @designNote, @designImage)
 `);
 
+db.exec(`
+  CREATE TABLE IF NOT EXISTS blocked_slots (
+    slot_key   TEXT PRIMARY KEY,
+    created_at TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+  )
+`);
+
+// ── Admin auth middleware ──────────────────────────────────────
+function adminAuth(req, res, next) {
+  const pwd = req.headers['x-admin-password'];
+  if (!pwd || pwd !== process.env.ADMIN_PASSWORD) {
+    return res.status(401).json({ ok: false, error: 'Unauthorized' });
+  }
+  next();
+}
+
+// ── GET /api/slots/blocked ─────────────────────────────────────
+app.get('/api/slots/blocked', (req, res) => {
+  const rows = db.prepare('SELECT slot_key FROM blocked_slots').all();
+  res.json(rows.map(r => r.slot_key));
+});
+
+// ── POST /api/admin/slots/toggle ──────────────────────────────
+app.post('/api/admin/slots/toggle', adminAuth, (req, res) => {
+  const { slotKey } = req.body;
+  if (!slotKey) return res.status(400).json({ ok: false });
+  const exists = db.prepare('SELECT 1 FROM blocked_slots WHERE slot_key=?').get(slotKey);
+  if (exists) {
+    db.prepare('DELETE FROM blocked_slots WHERE slot_key=?').run(slotKey);
+    res.json({ ok: true, blocked: false });
+  } else {
+    db.prepare('INSERT OR IGNORE INTO blocked_slots (slot_key) VALUES (?)').run(slotKey);
+    res.json({ ok: true, blocked: true });
+  }
+});
+
+// ── GET /admin ─────────────────────────────────────────────────
+app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+
 // ── Append booking to Google Sheet ────────────────────────────
 async function appendToSheet(data) {
   if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) return;

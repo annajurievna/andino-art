@@ -840,6 +840,7 @@ footer a:hover{color:var(--gold)}
   var lang = localStorage.getItem('lang') || 'es';
   var selectedSlotKey = '';
   var weekOffset = 0;
+  var blockedSlots = new Set();
 
   // ── APPLY LANGUAGE ─────────────────────────────────────────────
   function applyLang(l) {
@@ -958,11 +959,12 @@ footer a:hover{color:var(--gold)}
         var monthName = t.months[dt.getMonth()];
         var slotLabel = dayName + ' ' + dt.getDate() + ' ' + monthName + ', ' + p.slotLabel;
         var past = dt.getTime() < today.getTime();
-        var s = el('div', 'slot' + (past ? ' past' : ''), '');
+        var isBlocked = blockedSlots.has(slotKey);
+        var s = el('div', 'slot' + (past ? ' past' : '') + (isBlocked ? ' past' : ''), isBlocked ? '–' : '');
         s.dataset.key = slotKey;
         s.dataset.label = slotLabel;
         if (slotKey === selectedSlotKey) s.classList.add('on');
-        if (!past) {
+        if (!past && !isBlocked) {
           s.addEventListener('click', function() {
             grid.querySelectorAll('.slot.on').forEach(function(x) { x.classList.remove('on'); });
             s.classList.add('on');
@@ -1118,7 +1120,10 @@ footer a:hover{color:var(--gold)}
   window.addEventListener('resize', function () { buildGrid(); });
 
   // ── INIT ───────────────────────────────────────────────────────
-  applyLang(lang);
+  fetch('/api/slots/blocked')
+    .then(function(r) { return r.json(); })
+    .then(function(keys) { blockedSlots = new Set(keys); applyLang(lang); })
+    .catch(function() { applyLang(lang); });
 
 })();
 </script>
