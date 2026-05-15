@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andino Art — Artista de Tatuajes · Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0d;--surface:#161616;--surface2:#1f1f1f;
+  --border:#272420;--text:#e8e2d4;--muted:#6e6456;
+  --gold:#c9a84c;--gold-lt:#e0c060;--gold-dk:#9a7830;--white:#f5f0e8;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;inset:0 0 auto;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2rem;background:rgba(13,13,13,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);transition:border-color .4s}
+nav.scrolled{border-bottom-color:rgba(201,168,76,.25)}
+.nav-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;letter-spacing:.2em;color:var(--gold);text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s}
+.nav-links a:hover{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.lang-switch{display:flex;align-items:center;gap:.25rem}
+.lang-btn{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.15em;color:var(--muted);padding:.25rem .35rem;transition:color .2s;line-height:1}
+.lang-btn.active{color:var(--gold)}
+.lang-btn:hover:not(.active){color:var(--text)}
+.lang-sep{font-size:.65rem;color:var(--border);line-height:1}
+.nav-btn{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-btn span{display:block;width:22px;height:1px;background:var(--text);transition:all .3s}
+.nav-btn.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-btn.open span:nth-child(2){opacity:0}
+.nav-btn.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:7rem 2rem 5rem;overflow:hidden}
+.hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% -10%,rgba(201,168,76,.09) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 110%,rgba(201,168,76,.04) 0%,transparent 60%)}
+.hero-glow::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");opacity:.5}
+.hero-inner{position:relative;z-index:1;max-width:720px}
+.eyebrow{font-size:.65rem;font-weight:500;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1.6rem}
+.hero-name{font-family:'Cinzel',serif;font-size:clamp(2.8rem,9vw,6.5rem);font-weight:700;line-height:.95;letter-spacing:.04em;color:var(--white);margin-bottom:.6rem}
+.hero-title{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1rem,2.5vw,1.5rem);color:var(--gold);letter-spacing:.02em;margin-bottom:1.6rem}
+.rule{width:52px;height:1px;background:var(--gold);opacity:.55;margin:0 auto 2rem}
+.hero-tagline{font-size:clamp(.9rem,1.8vw,1.05rem);color:var(--muted);max-width:460px;margin:0 auto 3rem;font-weight:300}
+.ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:all .28s}
+.btn-gold{background:var(--gold);color:var(--bg)}
+.btn-gold:hover{background:var(--gold-lt)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.ig-icon{width:15px;height:15px;fill:currentColor;flex-shrink:0}
+
+/* ── SHARED SECTION ── */
+section{padding:6rem 2rem}
+.wrap{max-width:1020px;margin:0 auto}
+.s-label{font-size:.62rem;font-weight:500;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
+.s-title{font-family:'Cinzel',serif;font-size:clamp(1.7rem,4.5vw,2.8rem);font-weight:600;color:var(--white);line-height:1.15;margin-bottom:1.4rem}
+.s-rule{width:44px;height:1px;background:var(--gold);opacity:.55;margin-bottom:2.5rem}
+
+/* ── ABOUT ── */
+#about{background:var(--surface)}
+.about-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:4rem;align-items:center}
+.portrait-frame{aspect-ratio:3/4;background:var(--surface2);border:1px solid var(--border);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.portrait-frame::before{content:'';position:absolute;inset:10px;border:1px solid rgba(201,168,76,.15);pointer-events:none;z-index:1}
+.portrait-ph{display:flex;flex-direction:column;align-items:center;gap:.8rem;color:var(--muted)}
+.portrait-ph svg{width:56px;height:56px;opacity:.2}
+.portrait-ph p{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;opacity:.4}
+.about-text{color:var(--muted);font-size:.93rem;margin-bottom:1.1rem}
+.about-tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.8rem}
+.tag{font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border:1px solid var(--border);color:var(--muted)}
+.tag:first-child{border-color:var(--gold-dk);color:var(--gold)}
+
+/* ── LOCATION ── */
+#location{background:var(--bg)}
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:.5rem}
+.loc-card{background:var(--surface);border:1px solid var(--border);padding:2.5rem;position:relative;overflow:hidden}
+.loc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold-dk),var(--gold),transparent)}
+.loc-icon{width:42px;height:42px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem;flex-shrink:0}
+.loc-icon svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.loc-card h3{font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;color:var(--white);letter-spacing:.04em;margin-bottom:.9rem}
+.loc-card p{color:var(--muted);font-size:.88rem}
+.loc-note{margin-top:2.5rem;padding:1.4rem 1.8rem;border-left:2px solid var(--gold-dk);background:var(--surface)}
+.loc-note p{font-size:.88rem;color:var(--muted);font-style:italic}
+
+/* ── HYGIENE ── */
+#hygiene{background:var(--surface)}
+.hyg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.hyg-item{padding:1.8rem;border:1px solid var(--border);background:var(--bg)}
+.hyg-item svg{width:30px;height:30px;stroke:var(--gold);fill:none;stroke-width:1.5;margin-bottom:.9rem}
+.hyg-item h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--white);margin-bottom:.5rem}
+.hyg-item p{font-size:.83rem;color:var(--muted)}
+.hyg-quote{margin-top:3rem;text-align:center}
+.hyg-quote p{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:var(--muted);max-width:580px;margin:0 auto}
+
+/* ── PRICES ── */
+#prices{background:var(--bg)}
+.prices-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding-top:1.2rem}
+.price-card{background:var(--surface);border:1px solid var(--border);padding:2.5rem 2rem;text-align:center;position:relative;transition:transform .3s,border-color .3s}
+.price-card:hover{transform:translateY(-5px);border-color:var(--gold-dk)}
+.price-card.feat{border-color:var(--gold-dk);background:var(--surface2)}
+.feat-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);font-size:.58rem;font-weight:600;letter-spacing:.2em;background:var(--gold);color:var(--bg);padding:.28rem 1rem;white-space:nowrap}
+.p-tier{font-size:.62rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.p-name{font-family:'Cinzel',serif;font-size:1.35rem;font-weight:600;color:var(--white);margin-bottom:.4rem}
+.p-range{font-family:'Playfair Display',serif;font-size:1.55rem;color:var(--gold);margin-bottom:.35rem}
+.p-size{font-size:.78rem;color:var(--muted);margin-bottom:1.8rem}
+.p-feats{list-style:none;text-align:left}
+.p-feats li{font-size:.83rem;color:var(--muted);padding:.45rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.65rem}
+.p-feats li::before{content:'';display:inline-block;width:5px;height:5px;border:1px solid var(--gold-dk);flex-shrink:0}
+.p-feats li:last-child{border-bottom:none}
+.p-note{margin-top:2.5rem;text-align:center;font-size:.83rem;color:var(--muted)}
+
+/* ── BOOKING ── */
+#booking{background:var(--surface)}
+.book-layout{display:grid;grid-template-columns:1.25fr 1fr;gap:4rem;align-items:start}
+.slots-section h3,.form-section h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--white);margin-bottom:1.4rem}
+.slots-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.slots-grid{display:grid;grid-template-columns:auto repeat(6,1fr);gap:3px;min-width:340px}
+.s-head{font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:.5rem .2rem;text-align:center}
+.s-row-label{font-size:.65rem;color:var(--muted);padding:.55rem .7rem .55rem 0;display:flex;align-items:center;white-space:nowrap}
+.slot{background:var(--bg);border:1px solid var(--border);padding:.55rem .2rem;font-size:.62rem;text-align:center;cursor:pointer;color:var(--muted);transition:all .2s;user-select:none;line-height:1.2}
+.slot:hover:not(.off){border-color:var(--gold-dk);color:var(--gold)}
+.slot.on{background:var(--gold-dk);border-color:var(--gold);color:var(--white)}
+.slot.off{opacity:.28;cursor:not-allowed}
+.slot-legend{display:flex;gap:1.4rem;margin-top:.9rem;font-size:.68rem;color:var(--muted)}
+.leg{display:flex;align-items:center;gap:.45rem}
+.leg-box{width:9px;height:9px;border:1px solid}
+.leg-box.av{border-color:var(--border)}
+.leg-box.sel{background:var(--gold-dk);border-color:var(--gold)}
+.leg-box.off{border-color:var(--border);opacity:.3}
+
+/* ── FORM ── */
+.fgroup{margin-bottom:1.1rem}
+.fgroup label{display:block;font-size:.67rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
+.fgroup input,.fgroup select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.78rem 1rem;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:300;outline:none;transition:border-color .2s;appearance:none;-webkit-appearance:none;border-radius:0}
+.fgroup input:focus,.fgroup select:focus{border-color:var(--gold-dk)}
+.fgroup input::placeholder{color:var(--muted);opacity:.55}
+.fgroup select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6456' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+.fgroup select option{background:var(--surface2)}
+.slot-display{background:var(--bg);border:1px solid var(--border);padding:.78rem 1rem;font-size:.85rem;color:var(--muted);font-style:italic;min-height:44px;transition:border-color .2s}
+.slot-display.has{color:var(--gold);font-style:normal;border-color:var(--gold-dk)}
+.btn-submit{width:100%;justify-content:center;margin-top:1.4rem}
+.err{border-color:#8b2020 !important}
+
+/* ── CONFIRM ── */
+.confirm{display:none;text-align:center;padding:3rem 1.5rem;border:1px solid var(--gold-dk);background:var(--bg)}
+.confirm.show{display:block}
+.confirm-ring{width:58px;height:58px;border:1px solid var(--gold);border-radius:50%;margin:0 auto 1.4rem;display:flex;align-items:center;justify-content:center}
+.confirm-ring svg{width:26px;height:26px;stroke:var(--gold);fill:none;stroke-width:2}
+.confirm h3{font-family:'Cinzel',serif;font-size:1.15rem;color:var(--white);margin-bottom:.7rem}
+.confirm p{color:var(--muted);font-size:.88rem;max-width:300px;margin:0 auto}
+
+/* ── FOOTER ── */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center}
+.foot-name{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold);letter-spacing:.2em;margin-bottom:.4rem}
+footer p{font-size:.78rem;color:var(--muted)}
+footer a{color:var(--gold-dk);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--gold)}
+.foot-sub{margin-top:.4rem;font-size:.68rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .about-grid,.book-layout{grid-template-columns:1fr;gap:2.5rem}
+  .prices-grid{grid-template-columns:1fr}
+  .hyg-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(13,13,13,.98);flex-direction:column;padding:1.8rem 2rem;gap:1.3rem;border-bottom:1px solid var(--border)}
+  .nav-links.open{display:flex}
+  .nav-btn{display:flex}
+  .loc-grid{grid-template-columns:1fr}
+  section{padding:4rem 1.4rem}
+}
+@media(max-width:500px){
+  .hyg-grid{grid-template-columns:1fr}
+  .ctas{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">ANDINO ART</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about"    data-i18n="navAbout">Sobre mí</a></li>
+    <li><a href="#location" data-i18n="navLocation">Ubicación</a></li>
+    <li><a href="#hygiene"  data-i18n="navHygiene">Higiene</a></li>
+    <li><a href="#prices"   data-i18n="navPrices">Precios</a></li>
+    <li><a href="#booking"  data-i18n="navBook">Reservar</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="es">ES</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <button class="nav-btn" id="navBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <p class="eyebrow" data-i18n="heroEyebrow">Artista de Tatuajes &middot; Barcelona, España</p>
+    <h1 class="hero-name">Andino<br>Art</h1>
+    <p class="hero-title" data-i18n="heroTitle">Especialista en Fine Line y Dark Art</p>
+    <div class="rule"></div>
+    <p class="hero-tagline" data-i18n="heroTagline">Convirtiendo piel en historias. Cada pieza está diseñada para durar — precisa, personal, permanente.</p>
+    <div class="ctas">
+      <a href="#booking" class="btn btn-gold" data-i18n="heroBookBtn">Reservar Sesión</a>
+      <a href="https://wa.me/34692164559" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <span data-i18n="waBtn">WhatsApp</span>
+      </a>
+      <a href="https://instagram.com/andinoart.ink" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        @andinoart.ink
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <div class="portrait-frame">
+          <img src="CristianAI.jpeg" alt="Andino Art — Artista de Tatuajes" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        </div>
+      </div>
+      <div>
+        <p class="s-label" data-i18n="aboutLabel">Sobre el Artista</p>
+        <h2 class="s-title" data-i18n="aboutTitle">Tinta con intención.</h2>
+        <div class="s-rule"></div>
+        <p class="about-text" data-i18n="aboutP1">Soy el artista detrás de Andino Art — nacido y criado en Andes, Antioquia, Colombia, ahora radicado en Barcelona, España. El nombre lo dice todo: las montañas, el color, el alma de los Andes están tejidos en cada línea que trazo. Llevo ese legado conmigo a donde quiera que trabajo.</p>
+        <p class="about-text" data-i18n="aboutP2">Con más de 15 años de experiencia creando obras duraderas e intencionales sobre la piel, mi formación en bellas artes y diseño gráfico da forma a todo lo que creo — desde delicado trabajo de aguja única hasta composiciones de blackwork audaz inspiradas en patrones andinos y formas naturales.</p>
+        <p class="about-text" data-i18n="aboutP3">Me especializo en dos direcciones distintas: el retrato fine line y el dark art ilustrativo. Ya sea algo geométrico y sutil o dramáticamente oscuro con rica textura y contraste, trabajo de cerca con cada cliente para desarrollar un diseño que se sienta único.</p>
+        <p class="about-text" data-i18n="aboutP4">Cada pieza comienza con una conversación y termina con algo que llevarás con orgullo. Sin repeticiones. Sin prisas. Trabajo preciso y personal hecho para durar.</p>
+        <div class="about-tags">
+          <span class="tag">Fine Line</span>
+          <span class="tag">Dark Art</span>
+          <span class="tag">Blackwork</span>
+          <span class="tag">Neo-Traditional</span>
+          <span class="tag">Portraiture</span>
+          <span class="tag">15+ <span data-i18n="years">Años</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="wrap">
+    <p class="s-label" data-i18n="locLabel">Dónde Trabajamos</p>
+    <h2 class="s-title" data-i18n-html="locTitle">Vamos a ti.<br>O tú vienes a nosotros.</h2>
+    <div class="s-rule"></div>
+    <div class="loc-grid">
+      <div class="loc-card">
+        <div class="loc-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+        </div>
+        <h3 data-i18n="studioTitle">Estudio Privado — Barcelona</h3>
+        <p data-i18n="studioP">Mi estudio privado en Barcelona es un espacio limpio, tranquilo y completamente equipado para tatuar — iluminación profesional, silla reclinable adecuada y ambiente relajado. Ideal para una sesión enfocada y privada sin el ruido de una tienda comercial. La dirección exacta se comparte tras la confirmación de la reserva.</p>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677"/></svg>
+        </div>
+        <h3 data-i18n="mobileTitle">A Domicilio — Voy a Ti</h3>
+        <p data-i18n="mobileP">¿Prefieres tu propio espacio? Ofrezco sesiones a domicilio en toda Barcelona, llevando mi equipo profesional completo a tu casa. Todo el equipo viaja en embalaje esterilizado y sellado. Solo necesitas una superficie plana y limpia y buena luz. Se aplica tarifa de desplazamiento para distancias superiores a 10 km del centro. Coordinamos todos los detalles por WhatsApp antes de la cita.</p>
+      </div>
+    </div>
+    <div class="loc-note">
+      <p data-i18n="locNote">"Ya sea en mi estudio o en el tuyo, la preparación, los estándares y la experiencia son idénticos. Tú eliges lo que más te convenga."</p>
+    </div>
+  </div>
+</section>
+
+<!-- HYGIENE -->
+<section id="hygiene">
+  <div class="wrap">
+    <p class="s-label" data-i18n="hygLabel">Seguridad y Estándares</p>
+    <h2 class="s-title" data-i18n-html="hygTitle">Higiene de grado médico.<br>Sin compromisos.</h2>
+    <div class="s-rule"></div>
+    <div class="hyg-grid">
+      <div class="hyg-item">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+        <h3 data-i18n="needleH">Agujas de Uso Único</h3>
+        <p data-i18n="needleP">Cada aguja está empaquetada individualmente y es estéril. Se usa una vez y se desecha inmediatamente en un contenedor homologado. Nunca reutilizada. Nunca compartida.</p>
+      </div>
+      <div class="hyg-item">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <h3 data-i18n="autoclaveH">Esterilización en Autoclave</h3>
+        <p data-i18n="autoclaveP">Todos los componentes reutilizables — tubos, agarres, piezas de la máquina — se esterilizan en un autoclave clase B certificado entre cada sesión y se prueban con indicadores biológicos.</p>
+      </div>
+      <div class="hyg-item">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/></svg>
+        <h3 data-i18n="barrierH">Protección de Barrera Total</h3>
+        <p data-i18n="barrierP">Máquina, fuente de alimentación, cable, frascos — cada superficie se envuelve en film plástico barrera fresco antes de cada sesión y se desecha inmediatamente después.</p>
+      </div>
+      <div class="hyg-item">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+        <h3 data-i18n="inksH">Tintas Veganas Certificadas</h3>
+        <p data-i18n="inksP">Todas las tintas cumplen con la normativa EU REACH, son libres de crueldad animal y dermatológicamente probadas. Sin pigmentos de origen animal ni metales pesados fuera de los límites regulados.</p>
+      </div>
+      <div class="hyg-item">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75"/></svg>
+        <h3 data-i18n="licensedH">Con Licencia y Seguro</h3>
+        <p data-i18n="licensedP">Con licencia completa bajo la normativa sanitaria española. El seguro profesional de responsabilidad civil cubre cada sesión — en el estudio o a domicilio.</p>
+      </div>
+      <div class="hyg-item">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+        <h3 data-i18n="aftercareH">Cuidados y Seguimiento</h3>
+        <p data-i18n="aftercareP">Cada cliente recibe una guía escrita de cuidados posteriores más un mensaje personal de seguimiento 48 horas después de la sesión. Los retoques dentro de los 3 meses siempre están incluidos, sin cargo.</p>
+      </div>
+    </div>
+    <div class="hyg-quote">
+      <p data-i18n="hygQuote">"El tatuaje es un acto íntimo. Afronto la responsabilidad de trabajar sobre tu cuerpo con la misma seriedad que un cirujano en un quirófano."</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICES -->
+<section id="prices">
+  <div class="wrap">
+    <p class="s-label" data-i18n="pricesLabel">Inversión</p>
+    <h2 class="s-title" data-i18n-html="pricesTitle">Precios transparentes.<br>Sin sorpresas.</h2>
+    <div class="s-rule"></div>
+    <div class="prices-grid">
+      <div class="price-card">
+        <p class="p-tier" data-i18n="tierI">Nivel I</p>
+        <h3 class="p-name" data-i18n="small">Pequeño</h3>
+        <p class="p-range" data-i18n="smallRange">€50 – €150</p>
+        <p class="p-size" data-i18n="smallSize">Símbolo o palabra simple &middot; 1–2 h</p>
+        <ul class="p-feats">
+          <li data-i18n="sf1">Diseños de un solo elemento</li>
+          <li data-i18n="sf2">Fine line o blackwork mínimo</li>
+          <li data-i18n="sf3">Símbolos, iniciales, botánica pequeña</li>
+          <li data-i18n="sf4">Flash personalizado disponible</li>
+          <li data-i18n="sf5">Retoque incluido</li>
+        </ul>
+      </div>
+      <div class="price-card feat">
+        <span class="feat-badge" data-i18n="mostPopular">MÁS POPULAR</span>
+        <p class="p-tier" data-i18n="tierII">Nivel II</p>
+        <h3 class="p-name" data-i18n="medium">Mediano</h3>
+        <p class="p-range" data-i18n="medRange">€150 – €400</p>
+        <p class="p-size" data-i18n="medSize">Hasta ~3 horas de sesión</p>
+        <ul class="p-feats">
+          <li data-i18n="mf1">Consulta de diseño personalizado completo</li>
+          <li data-i18n="mf2">Composiciones multi-elemento</li>
+          <li data-i18n="mf3">Retratos, animales, botánica</li>
+          <li data-i18n="mf4">Trabajo de sombreado y textura</li>
+          <li data-i18n="mf5">Retoque incluido</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <p class="p-tier" data-i18n="tierIII">Nivel III</p>
+        <h3 class="p-name" data-i18n="large">Grande</h3>
+        <p class="p-range" data-i18n="lgRange">€400 – €1.000+</p>
+        <p class="p-size" data-i18n="lgSize">Piezas grandes &middot; varias sesiones</p>
+        <ul class="p-feats">
+          <li data-i18n="lf1">Proceso de diseño en profundidad</li>
+          <li data-i18n="lf2">Mangas, piezas de espalda y pecho</li>
+          <li data-i18n="lf3">Puede abarcar varias sesiones</li>
+          <li data-i18n="lf4">Fotos de progreso tras cada sesión</li>
+          <li data-i18n="lf5">Retoque incluido</li>
+        </ul>
+      </div>
+    </div>
+    <p class="p-note" data-i18n="priceNote">Todos los precios incluyen consulta de diseño y kit completo de cuidados. Un depósito no reembolsable del 25% confirma tu reserva y se aplica al precio final.</p>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="wrap">
+    <p class="s-label" data-i18n="bookLabel">Ocupa tu Lugar</p>
+    <h2 class="s-title" data-i18n="bookTitle">Reserva tu sesión.</h2>
+    <div class="s-rule"></div>
+    <div class="book-layout">
+      <div class="slots-section">
+        <h3 data-i18n="slotsH3">Elige un horario disponible</h3>
+        <div class="slots-wrap">
+          <div class="slots-grid" id="slotsGrid"></div>
+        </div>
+        <div class="slot-legend">
+          <div class="leg"><div class="leg-box av"></div> <span data-i18n="legAvail">Disponible</span></div>
+          <div class="leg"><div class="leg-box sel"></div> <span data-i18n="legSel">Seleccionado</span></div>
+          <div class="leg"><div class="leg-box off"></div> <span data-i18n="legOff">No disponible</span></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3 data-i18n="formH3">Tus datos</h3>
+        <div id="formWrap">
+          <form id="bookForm" novalidate>
+            <div class="fgroup">
+              <label for="fname" data-i18n="labelName">Nombre Completo</label>
+              <input type="text" id="fname" data-i18n-ph="phName" placeholder="Tu nombre completo" autocomplete="name">
+            </div>
+            <div class="fgroup">
+              <label for="femail" data-i18n="labelEmail">Correo Electrónico</label>
+              <input type="email" id="femail" data-i18n-ph="phEmail" placeholder="tu@correo.com" autocomplete="email">
+            </div>
+            <div class="fgroup">
+              <label for="fwa" data-i18n="labelWa">Número de WhatsApp</label>
+              <input type="tel" id="fwa" data-i18n-ph="phWa" placeholder="+34 612 345 678" autocomplete="tel">
+            </div>
+            <div class="fgroup">
+              <label data-i18n="labelSlot">Horario Preferido</label>
+              <div class="slot-display" id="slotDisplay" data-i18n="slotPh">Selecciona un horario del calendario</div>
+              <input type="hidden" id="fslot">
+            </div>
+            <div class="fgroup">
+              <label for="fsize" data-i18n="labelSize">Tamaño del Tatuaje</label>
+              <select id="fsize">
+                <option value="" disabled selected data-i18n="sizeDefault">Elige un tamaño</option>
+                <option value="small"  data-i18n="sizeSmall">Pequeño — €50–€150</option>
+                <option value="medium" data-i18n="sizeMed">Mediano — €150–€400</option>
+                <option value="large"  data-i18n="sizeLg">Grande — €400–€1.000+</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-gold btn-submit" data-i18n="submitBtn">Solicitar Reserva</button>
+          </form>
+        </div>
+        <div class="confirm" id="confirm">
+          <div class="confirm-ring">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </div>
+          <h3 data-i18n="confirmH3">Solicitud Recibida</h3>
+          <p data-i18n="confirmP">¡Gracias! Me pondré en contacto por WhatsApp en menos de 24 horas para confirmar tu sesión y coordinar el depósito.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="foot-name">ANDINO ART</p>
+  <p><span data-i18n="footerDesc">Artista de Tatuajes</span> &middot; Barcelona &middot; <a href="https://instagram.com/andinoart.ink" target="_blank" rel="noopener">@andinoart.ink</a></p>
+  <p class="foot-sub">&copy; 2025 Andino Art. <span data-i18n="rights">Todos los derechos reservados.</span></p>
+</footer>
+
+<script>
+(function () {
+
+  // ── TRANSLATIONS ──────────────────────────────────────────────
+  var T = {
+    es: {
+      pageTitle:    'Andino Art — Artista de Tatuajes · Barcelona',
+      navAbout:     'Sobre mí',
+      navLocation:  'Ubicación',
+      navHygiene:   'Higiene',
+      navPrices:    'Precios',
+      navBook:      'Reservar',
+      heroEyebrow:  'Artista de Tatuajes · Barcelona, España',
+      heroTitle:    'Especialista en Fine Line y Dark Art',
+      heroTagline:  'Convirtiendo piel en historias. Cada pieza está diseñada para durar — precisa, personal, permanente.',
+      heroBookBtn:  'Reservar Sesión',
+      waBtn:        'WhatsApp',
+      artistPhoto:  'Foto del Artista',
+      aboutLabel:   'Sobre el Artista',
+      aboutTitle:   'Tinta con intención.',
+      aboutP1:      'Soy el artista detrás de Andino Art — nacido y criado en Andes, Antioquia, Colombia, ahora radicado en Barcelona, España. El nombre lo dice todo: las montañas, el color, el alma de los Andes están tejidos en cada línea que trazo. Llevo ese legado conmigo a donde quiera que trabajo.',
+      aboutP2:      'Con más de 15 años de experiencia creando obras duraderas e intencionales sobre la piel, mi formación en bellas artes y diseño gráfico da forma a todo lo que creo — desde delicado trabajo de aguja única hasta composiciones de blackwork audaz inspiradas en patrones andinos y formas naturales.',
+      aboutP3:      'Me especializo en dos direcciones distintas: el retrato fine line y el dark art ilustrativo. Ya sea algo geométrico y sutil o dramáticamente oscuro con rica textura y contraste, trabajo de cerca con cada cliente para desarrollar un diseño que se sienta único.',
+      aboutP4:      'Cada pieza comienza con una conversación y termina con algo que llevarás con orgullo. Sin repeticiones. Sin prisas. Trabajo preciso y personal hecho para durar.',
+      years:        'Años',
+      locLabel:     'Dónde Trabajamos',
+      locTitle:     'Vamos a ti.<br>O tú vienes a nosotros.',
+      studioTitle:  'Estudio Privado — Barcelona',
+      studioP:      'Mi estudio privado en Barcelona es un espacio limpio, tranquilo y completamente equipado para tatuar — iluminación profesional, silla reclinable adecuada y ambiente relajado. Ideal para una sesión enfocada y privada sin el ruido de una tienda comercial. La dirección exacta se comparte tras la confirmación de la reserva.',
+      mobileTitle:  'A Domicilio — Voy a Ti',
+      mobileP:      '¿Prefieres tu propio espacio? Ofrezco sesiones a domicilio en toda Barcelona, llevando mi equipo profesional completo a tu casa. Todo el equipo viaja en embalaje esterilizado y sellado. Solo necesitas una superficie plana y limpia y buena luz. Se aplica tarifa de desplazamiento para distancias superiores a 10 km del centro. Coordinamos todos los detalles por WhatsApp antes de la cita.',
+      locNote:      '"Ya sea en mi estudio o en el tuyo, la preparación, los estándares y la experiencia son idénticos. Tú eliges lo que más te convenga."',
+      hygLabel:     'Seguridad y Estándares',
+      hygTitle:     'Higiene de grado médico.<br>Sin compromisos.',
+      needleH:      'Agujas de Uso Único',
+      needleP:      'Cada aguja está empaquetada individualmente y es estéril. Se usa una vez y se desecha inmediatamente en un contenedor homologado. Nunca reutilizada. Nunca compartida.',
+      autoclaveH:   'Esterilización en Autoclave',
+      autoclaveP:   'Todos los componentes reutilizables — tubos, agarres, piezas de la máquina — se esterilizan en un autoclave clase B certificado entre cada sesión y se prueban con indicadores biológicos.',
+      barrierH:     'Protección de Barrera Total',
+      barrierP:     'Máquina, fuente de alimentación, cable, frascos — cada superficie se envuelve en film plástico barrera fresco antes de cada sesión y se desecha inmediatamente después.',
+      inksH:        'Tintas Veganas Certificadas',
+      inksP:        'Todas las tintas cumplen con la normativa EU REACH, son libres de crueldad animal y dermatológicamente probadas. Sin pigmentos de origen animal ni metales pesados fuera de los límites regulados.',
+      licensedH:    'Con Licencia y Seguro',
+      licensedP:    'Con licencia completa bajo la normativa sanitaria española. El seguro profesional de responsabilidad civil cubre cada sesión — en el estudio o a domicilio.',
+      aftercareH:   'Cuidados y Seguimiento',
+      aftercareP:   'Cada cliente recibe una guía escrita de cuidados posteriores más un mensaje personal de seguimiento 48 horas después de la sesión. Los retoques dentro de los 3 meses siempre están incluidos, sin cargo.',
+      hygQuote:     '"El tatuaje es un acto íntimo. Afronto la responsabilidad de trabajar sobre tu cuerpo con la misma seriedad que un cirujano en un quirófano."',
+      pricesLabel:  'Inversión',
+      pricesTitle:  'Precios transparentes.<br>Sin sorpresas.',
+      mostPopular:  'MÁS POPULAR',
+      tierI:        'Nivel I', tierII: 'Nivel II', tierIII: 'Nivel III',
+      small:        'Pequeño', medium: 'Mediano', large: 'Grande',
+      smallRange:   '€50 – €150', medRange: '€150 – €400', lgRange: '€400 – €1.000+',
+      smallSize:    'Símbolo o palabra simple · 1–2 h',
+      medSize:      'Hasta ~3 horas de sesión',
+      lgSize:       'Piezas grandes · varias sesiones',
+      sf1: 'Diseños de un solo elemento',    sf2: 'Fine line o blackwork mínimo',
+      sf3: 'Símbolos, iniciales, botánica pequeña', sf4: 'Flash personalizado disponible', sf5: 'Retoque incluido',
+      mf1: 'Consulta de diseño personalizado completo', mf2: 'Composiciones multi-elemento',
+      mf3: 'Retratos, animales, botánica',   mf4: 'Trabajo de sombreado y textura',  mf5: 'Retoque incluido',
+      lf1: 'Proceso de diseño en profundidad', lf2: 'Mangas, piezas de espalda y pecho',
+      lf3: 'Puede abarcar varias sesiones',  lf4: 'Fotos de progreso tras cada sesión', lf5: 'Retoque incluido',
+      priceNote:    'Todos los precios incluyen consulta de diseño y kit completo de cuidados. Un depósito no reembolsable del 25% confirma tu reserva y se aplica al precio final.',
+      bookLabel:    'Ocupa tu Lugar',
+      bookTitle:    'Reserva tu sesión.',
+      slotsH3:      'Elige un horario disponible',
+      legAvail:     'Disponible', legSel: 'Seleccionado', legOff: 'No disponible',
+      formH3:       'Tus datos',
+      labelName:    'Nombre Completo', labelEmail: 'Correo Electrónico',
+      labelWa:      'Número de WhatsApp', labelSlot: 'Horario Preferido', labelSize: 'Tamaño del Tatuaje',
+      phName:       'Tu nombre completo', phEmail: 'tu@correo.com', phWa: '+34 612 345 678',
+      slotPh:       'Selecciona un horario del calendario',
+      sizeDefault:  'Elige un tamaño',
+      sizeSmall:    'Pequeño — €50–€150', sizeMed: 'Mediano — €150–€400', sizeLg: 'Grande — €400–€1.000+',
+      submitBtn:    'Solicitar Reserva',
+      confirmH3:    'Solicitud Recibida',
+      confirmP:     '¡Gracias! Me pondré en contacto por WhatsApp en menos de 24 horas para confirmar tu sesión y coordinar el depósito.',
+      footerDesc:   'Artista de Tatuajes',
+      rights:       'Todos los derechos reservados.',
+      days:         ['Lun','Mar','Mié','Jue','Vie','Sáb'],
+      amLabel:      'Mañana<br>9 – 12', pmLabel: 'Tarde<br>13 – 17', evLabel: 'Noche<br>17 – 23',
+      amSlotLabel:  'Mañana 9–12',      pmSlotLabel: 'Tarde 13–17',  evSlotLabel: 'Noche 17–23'
+    },
+    en: {
+      pageTitle:    'Andino Art — Tattoo Artist · Barcelona',
+      navAbout:     'About',
+      navLocation:  'Location',
+      navHygiene:   'Hygiene',
+      navPrices:    'Prices',
+      navBook:      'Book',
+      heroEyebrow:  'Tattoo Artist · Barcelona, Spain',
+      heroTitle:    'Fine Line & Dark Art Specialist',
+      heroTagline:  'Turning skin into stories. Every piece is drawn to last — precise, personal, permanent.',
+      heroBookBtn:  'Book a Session',
+      waBtn:        'WhatsApp',
+      artistPhoto:  'Artist Photo',
+      aboutLabel:   'About the Artist',
+      aboutTitle:   'Ink with intention.',
+      aboutP1:      'I\'m the artist behind Andino Art — born and raised in Andes, Antioquia, Colombia, now based in Barcelona, Spain. The name says it all: the mountains, the colour, the soul of the Andes are woven into every line I draw. I carry that heritage with me wherever I work.',
+      aboutP2:      'With over 15 years of experience crafting intentional, lasting artwork on skin, my background in fine art and graphic design shapes everything I create — from delicate single-needle linework to bold blackwork compositions inspired by Andean patterns and natural forms.',
+      aboutP3:      'I specialise in two distinct directions: fine line portraiture and illustrative dark art. Whether you want something whisper-quiet and geometric or dramatically dark with rich texture and contrast, I work closely with each client to develop a design that feels uniquely theirs.',
+      aboutP4:      'Every piece starts with a conversation and ends with something you\'ll carry with pride. No flash-sheet repeats. No rush. Precise, personal work made to last.',
+      years:        'Years',
+      locLabel:     'Where We Work',
+      locTitle:     'We come to you.<br>Or you come to us.',
+      studioTitle:  'Home Studio — Barcelona',
+      studioP:      'My private studio in Barcelona is a clean, quiet, fully equipped workspace set up specifically for tattooing — professional lighting, a proper reclinable chair, and a relaxed atmosphere. Ideal for a focused, private session without the noise of a commercial shop. The exact address is shared after booking is confirmed.',
+      mobileTitle:  'Mobile — I Travel to You',
+      mobileP:      'Prefer your own space? I offer mobile sessions across greater Barcelona, bringing my full professional setup to your home. All equipment travels in sterilised, sealed packaging. You just need a clean flat surface and decent light. A travel fee applies for distances over 10 km from the city centre. We coordinate all details via WhatsApp before the appointment.',
+      locNote:      '"Whether at my studio or yours, the setup, the standards, and the experience are identical. You choose what\'s most comfortable for you."',
+      hygLabel:     'Safety & Standards',
+      hygTitle:     'Medical-grade hygiene.<br>No compromises.',
+      needleH:      'Single-Use Needles',
+      needleP:      'Every needle is individually packaged and sterile. Used once, then disposed of immediately in a certified sharps container. Never reused. Never shared.',
+      autoclaveH:   'Autoclave Sterilisation',
+      autoclaveP:   'All reusable components — tubes, grips, machine parts — are sterilised in a certified class B autoclave between every session and tested with biological indicators.',
+      barrierH:     'Full Barrier Protection',
+      barrierP:     'Machine, power supply, clip cord, spray bottles — every surface is wrapped in fresh plastic barrier film before each session and disposed of immediately after.',
+      inksH:        'Certified Vegan Inks',
+      inksP:        'All inks are EU REACH-compliant, cruelty-free, and dermatologically tested. No animal-derived pigments, no heavy metals beyond regulated limits.',
+      licensedH:    'Licensed & Insured',
+      licensedP:    'Fully licensed under Spanish health authority regulations. Professional public liability insurance covers every session — at the studio or on location.',
+      aftercareH:   'Aftercare & Follow-Up',
+      aftercareP:   'Every client receives a written aftercare guide plus a personal check-in message 48 hours after the session. Touch-ups within 3 months are always included, no charge.',
+      hygQuote:     '"Tattooing is an intimate act. I treat the responsibility of working on your body with the same seriousness a surgeon takes to an operating theatre."',
+      pricesLabel:  'Investment',
+      pricesTitle:  'Transparent pricing.<br>No surprises.',
+      mostPopular:  'MOST POPULAR',
+      tierI:        'Tier I', tierII: 'Tier II', tierIII: 'Tier III',
+      small:        'Small', medium: 'Medium', large: 'Large',
+      smallRange:   '€50 – €150', medRange: '€150 – €400', lgRange: '€400 – €1,000+',
+      smallSize:    'Simple symbol or word · 1–2 h',
+      medSize:      'Up to ~3 hour session',
+      lgSize:       'Large pieces · multiple sessions',
+      sf1: 'Single-element designs',          sf2: 'Fine line or minimal blackwork',
+      sf3: 'Symbols, initials, small botanicals', sf4: 'Custom flash available', sf5: 'Touch-up included',
+      mf1: 'Full custom design consultation', mf2: 'Multi-element compositions',
+      mf3: 'Portraits, animals, botanicals',  mf4: 'Shading & texture work',         mf5: 'Touch-up included',
+      lf1: 'In-depth design process',         lf2: 'Sleeves, back & chest pieces',
+      lf3: 'May span multiple sessions',      lf4: 'Progress photos after each session', lf5: 'Touch-up included',
+      priceNote:    'All prices include a design consultation and full aftercare kit. A 25% non-refundable deposit confirms your booking and is applied to the final price.',
+      bookLabel:    'Get in the Chair',
+      bookTitle:    'Book your session.',
+      slotsH3:      'Pick an available time slot',
+      legAvail:     'Available', legSel: 'Selected', legOff: 'Unavailable',
+      formH3:       'Your details',
+      labelName:    'Full Name', labelEmail: 'Email Address',
+      labelWa:      'WhatsApp Number', labelSlot: 'Preferred Time Slot', labelSize: 'Tattoo Size',
+      phName:       'Your full name', phEmail: 'you@example.com', phWa: '+34 612 345 678',
+      slotPh:       'Select a slot from the calendar',
+      sizeDefault:  'Choose a size',
+      sizeSmall:    'Small — €50–€150', sizeMed: 'Medium — €150–€400', sizeLg: 'Large — €400–€1,000+',
+      submitBtn:    'Request Booking',
+      confirmH3:    'Request Received',
+      confirmP:     'Thanks! I\'ll reach out via WhatsApp within 24 hours to confirm your session and arrange the deposit.',
+      footerDesc:   'Tattoo Artist',
+      rights:       'All rights reserved.',
+      days:         ['Mon','Tue','Wed','Thu','Fri','Sat'],
+      amLabel:      'Morning<br>9 – 12', pmLabel: 'Afternoon<br>13 – 17', evLabel: 'Evening<br>17 – 23',
+      amSlotLabel:  'Morning 9–12',      pmSlotLabel: 'Afternoon 13–17',  evSlotLabel: 'Evening 17–23'
+    }
+  };
+
+  // ── STATE ──────────────────────────────────────────────────────
+  var lang = localStorage.getItem('lang') || 'es';
+  var selectedSlotKey = '';
+  var unavail = { 'Mon-AM':1, 'Wed-PM':1, 'Fri-AM':1, 'Sat-PM':1, 'Thu-AM':1 };
+  var dayKeys = ['Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  // ── APPLY LANGUAGE ─────────────────────────────────────────────
+  function applyLang(l) {
+    lang = l;
+    localStorage.setItem('lang', l);
+    document.documentElement.lang = l;
+    document.title = T[l].pageTitle;
+
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.dataset.i18n;
+      if (T[l][key] !== undefined) el.textContent = T[l][key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+      var key = el.dataset.i18nHtml;
+      if (T[l][key] !== undefined) el.innerHTML = T[l][key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+      var key = el.dataset.i18nPh;
+      if (T[l][key] !== undefined) el.placeholder = T[l][key];
+    });
+
+    // update slot display placeholder if no slot chosen
+    var disp = document.getElementById('slotDisplay');
+    if (!selectedSlotKey) {
+      disp.textContent = T[l].slotPh;
+      disp.classList.remove('has');
+    }
+
+    // lang toggle buttons
+    document.querySelectorAll('.lang-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.lang === l);
+    });
+
+    buildGrid();
+  }
+
+  // ── SLOT GRID ──────────────────────────────────────────────────
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  function buildGrid() {
+    var grid = document.getElementById('slotsGrid');
+    grid.innerHTML = '';
+    var t = T[lang];
+
+    // header row
+    grid.appendChild(el('div', 's-head'));
+    t.days.forEach(function (d) { grid.appendChild(el('div', 's-head', d)); });
+
+    // period rows
+    [{ label: t.amLabel, key: 'AM', slotLabel: t.amSlotLabel },
+     { label: t.pmLabel, key: 'PM', slotLabel: t.pmSlotLabel },
+     { label: t.evLabel, key: 'EV', slotLabel: t.evSlotLabel }].forEach(function (p) {
+      grid.appendChild(el('div', 's-row-label', p.label));
+      dayKeys.forEach(function (dk, i) {
+        var key = dk + '-' + p.key;
+        var off = !!unavail[key];
+        var s = el('div', 'slot' + (off ? ' off' : ''), off ? '&times;' : '&check;');
+        s.dataset.key = key;
+        s.dataset.label = t.days[i] + ', ' + p.slotLabel;
+        if (key === selectedSlotKey) s.classList.add('on');
+        if (!off) {
+          s.addEventListener('click', function () {
+            grid.querySelectorAll('.slot.on').forEach(function (x) { x.classList.remove('on'); });
+            s.classList.add('on');
+            selectedSlotKey = key;
+            var disp = document.getElementById('slotDisplay');
+            disp.textContent = s.dataset.label;
+            disp.classList.add('has');
+            disp.classList.remove('err');
+            document.getElementById('fslot').value = key;
+          });
+        }
+        grid.appendChild(s);
+      });
+    });
+
+    // refresh slot display label if slot already selected
+    if (selectedSlotKey) {
+      var sel = grid.querySelector('.slot[data-key="' + selectedSlotKey + '"]');
+      if (sel) {
+        var disp = document.getElementById('slotDisplay');
+        disp.textContent = sel.dataset.label;
+        disp.classList.add('has');
+      }
+    }
+  }
+
+  // ── NAV ────────────────────────────────────────────────────────
+  var navBtn = document.getElementById('navBtn');
+  var navLinks = document.getElementById('navLinks');
+  navBtn.addEventListener('click', function () {
+    navBtn.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      navBtn.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+  window.addEventListener('scroll', function () {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── LANG TOGGLE ────────────────────────────────────────────────
+  document.querySelectorAll('.lang-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.lang !== lang) applyLang(b.dataset.lang);
+    });
+  });
+
+  // ── FORM ───────────────────────────────────────────────────────
+  document.getElementById('bookForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nameEl  = document.getElementById('fname');
+    var emailEl = document.getElementById('femail');
+    var waEl    = document.getElementById('fwa');
+    var sizeEl  = document.getElementById('fsize');
+    var slotEl  = document.getElementById('fslot');
+    var disp    = document.getElementById('slotDisplay');
+    var valid   = true;
+
+    [nameEl, emailEl, waEl, sizeEl].forEach(function (f) {
+      if (!f.value.trim()) { f.classList.add('err'); valid = false; }
+      else f.classList.remove('err');
+    });
+    if (!slotEl.value) { disp.classList.add('err'); valid = false; }
+    if (!valid) return;
+
+    fetch('/api/booking', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:     nameEl.value.trim(),
+        email:    emailEl.value.trim(),
+        whatsapp: waEl.value.trim(),
+        slot:     disp.textContent,
+        size:     sizeEl.value,
+        lang:     lang
+      })
+    }).catch(function () {});
+
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('confirm').classList.add('show');
+  });
+  document.querySelectorAll('.fgroup input, .fgroup select').forEach(function (f) {
+    f.addEventListener('input', function () { f.classList.remove('err'); });
+  });
+
+  // ── INIT ───────────────────────────────────────────────────────
+  applyLang(lang);
+
+})();
+</script>
+</body>
+</html>
