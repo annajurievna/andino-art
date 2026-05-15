@@ -140,13 +140,32 @@ footer a:hover{color:var(--gold)}
 .foot-sub{margin-top:.4rem;font-size:.68rem}
 
 /* ── RESPONSIVE ── */
+.book-layout > *{min-width:0}
 @media(max-width:900px){.book-layout{grid-template-columns:1fr;gap:2.5rem}}
 @media(max-width:700px){
   .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(13,13,13,.98);flex-direction:column;padding:1.8rem 2rem;gap:1.3rem;border-bottom:1px solid var(--border)}
   .nav-links.open{display:flex}
   .nav-btn{display:flex}
-  .booking-body{padding:2.5rem 1.4rem 4rem}
-  .page-header{padding:7rem 1.4rem 2.5rem}
+  .booking-body{padding:2rem 1.2rem 3.5rem}
+  .page-header{padding:6.5rem 1.2rem 2rem}
+  .page-sub{font-size:.82rem}
+}
+@media(max-width:480px){
+  .booking-body{padding:1.8rem 1rem 3rem}
+  .page-header{padding:6rem 1rem 1.8rem}
+  .fgroup input,.fgroup select{font-size:16px}
+  .fgroup textarea{font-size:16px}
+  .week-label-text{font-size:.6rem;white-space:normal}
+  .week-arrow{width:26px;height:26px;font-size:.9rem}
+  .s-head{font-size:.55rem;padding:.4rem .1rem}
+  .s-head strong{font-size:.7rem}
+  .s-row-label{font-size:.58rem;padding:.5rem .4rem .5rem 0}
+  .slot{font-size:.55rem;padding:.45rem .1rem}
+  .slot-legend{gap:.7rem;font-size:.6rem}
+  .design-opt{padding:.5rem .7rem}
+  .design-opt-text{font-size:.8rem}
+  .confirm{padding:2rem 1rem}
+  .btn-submit{font-size:.65rem;padding:.8rem 1rem}
 }
 </style>
 </head>
@@ -444,7 +463,10 @@ footer a:hover{color:var(--gold)}
     document.getElementById('weekPrev').disabled = (weekOffset === 0);
     document.getElementById('weekNext').disabled = (weekOffset === 11);
 
-    grid.style.gridTemplateColumns = '72px repeat(' + (dates.length || 1) + ', 66px)';
+    var mobile = window.innerWidth <= 480;
+    var colW = mobile ? '50px' : '66px';
+    var lblW = mobile ? '56px' : '72px';
+    grid.style.gridTemplateColumns = lblW + ' repeat(' + (dates.length || 1) + ', ' + colW + ')';
 
     grid.appendChild(el('div', 's-head'));
     var todayStr = fmtKey(today);
@@ -616,6 +638,8 @@ footer a:hover{color:var(--gold)}
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   document.getElementById('bookAnotherBtn').addEventListener('click', resetBooking);
+
+  window.addEventListener('resize', function () { buildGrid(); });
 
   applyLang(lang);
 

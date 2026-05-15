@@ -213,25 +213,46 @@ footer a:hover{color:var(--gold)}
 .foot-sub{margin-top:.4rem;font-size:.68rem}
 
 /* ── RESPONSIVE ── */
+.book-layout > *,.about-grid > *{min-width:0}
 @media(max-width:900px){
   .about-grid,.book-layout{grid-template-columns:1fr;gap:2.5rem}
   .prices-grid{grid-template-columns:1fr}
   .hyg-grid{grid-template-columns:1fr 1fr}
   .gallery-grid{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:500px){
-  .gallery-grid{grid-template-columns:1fr}
-}
 @media(max-width:700px){
   .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(13,13,13,.98);flex-direction:column;padding:1.8rem 2rem;gap:1.3rem;border-bottom:1px solid var(--border)}
   .nav-links.open{display:flex}
   .nav-btn{display:flex}
   .loc-grid{grid-template-columns:1fr}
-  section{padding:4rem 1.4rem}
+  section{padding:4rem 1.2rem}
+  .loc-card{padding:1.8rem}
+  .price-card{padding:2rem 1.5rem}
 }
 @media(max-width:500px){
+  .gallery-grid{grid-template-columns:1fr}
   .hyg-grid{grid-template-columns:1fr}
   .ctas{flex-direction:column;align-items:center}
+}
+@media(max-width:480px){
+  section{padding:3.5rem 1rem}
+  #hero{padding:6rem 1rem 4rem}
+  .fgroup input,.fgroup select{font-size:16px}
+  .fgroup textarea{font-size:16px}
+  .week-label-text{font-size:.6rem;white-space:normal}
+  .week-arrow{width:26px;height:26px;font-size:.9rem}
+  .s-head{font-size:.55rem;padding:.4rem .1rem}
+  .s-head strong{font-size:.7rem}
+  .s-row-label{font-size:.58rem;padding:.5rem .4rem .5rem 0}
+  .slot{font-size:.55rem;padding:.45rem .1rem}
+  .slot-legend{gap:.7rem;font-size:.6rem}
+  .design-opt{padding:.5rem .7rem}
+  .design-opt-text{font-size:.8rem}
+  .prices-grid{gap:1rem}
+  .hyg-item{padding:1.4rem}
+  .about-grid{gap:1.8rem}
+  .confirm{padding:2rem 1rem}
+  .btn-submit{font-size:.65rem;padding:.8rem 1rem}
 }
 </style>
 </head>
@@ -904,7 +925,10 @@ footer a:hover{color:var(--gold)}
     document.getElementById('weekNext').disabled = (weekOffset === 11);
 
     // set dynamic grid columns
-    grid.style.gridTemplateColumns = '72px repeat(' + (dates.length || 1) + ', 66px)';
+    var mobile = window.innerWidth <= 480;
+    var colW = mobile ? '50px' : '66px';
+    var lblW = mobile ? '56px' : '72px';
+    grid.style.gridTemplateColumns = lblW + ' repeat(' + (dates.length || 1) + ', ' + colW + ')';
 
     // header row
     grid.appendChild(el('div', 's-head'));
@@ -1084,6 +1108,8 @@ footer a:hover{color:var(--gold)}
     document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
   }
   document.getElementById('bookAnotherBtn').addEventListener('click', resetBooking);
+
+  window.addEventListener('resize', function () { buildGrid(); });
 
   // ── INIT ───────────────────────────────────────────────────────
   applyLang(lang);
