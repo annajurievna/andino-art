@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservar — Andino Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0d;--surface:#161616;--surface2:#1f1f1f;
+  --border:#272420;--text:#e8e2d4;--muted:#6e6456;
+  --gold:#c9a84c;--gold-lt:#e0c060;--gold-dk:#9a7830;--white:#f5f0e8;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;inset:0 0 auto;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2rem;background:rgba(13,13,13,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);transition:border-color .4s}
+nav.scrolled{border-bottom-color:rgba(201,168,76,.25)}
+.nav-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;letter-spacing:.2em;color:var(--gold);text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s}
+.nav-links a:hover{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.lang-switch{display:flex;align-items:center;gap:.25rem}
+.lang-btn{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.15em;color:var(--muted);padding:.25rem .35rem;transition:color .2s;line-height:1}
+.lang-btn.active{color:var(--gold)}
+.lang-btn:hover:not(.active){color:var(--text)}
+.lang-sep{font-size:.65rem;color:var(--border);line-height:1}
+.nav-btn{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-btn span{display:block;width:22px;height:1px;background:var(--text);transition:all .3s}
+.nav-btn.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-btn.open span:nth-child(2){opacity:0}
+.nav-btn.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* ── SHARED ── */
+.wrap{max-width:1100px;margin:0 auto}
+.s-label{font-size:.62rem;font-weight:500;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
+.s-title{font-family:'Cinzel',serif;font-size:clamp(1.7rem,4.5vw,2.8rem);font-weight:600;color:var(--white);line-height:1.15;margin-bottom:1.4rem}
+.s-rule{width:44px;height:1px;background:var(--gold);opacity:.55;margin-bottom:2.5rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:all .28s}
+.btn-gold{background:var(--gold);color:var(--bg)}
+.btn-gold:hover{background:var(--gold-lt)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── PAGE HEADER ── */
+.page-header{padding:8rem 2rem 3.5rem;background:var(--bg);position:relative;overflow:hidden;text-align:center}
+.page-header-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% -20%,rgba(201,168,76,.07) 0%,transparent 65%);pointer-events:none}
+.page-eyebrow{font-size:.62rem;font-weight:500;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.page-h1{font-family:'Cinzel',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:var(--white);margin-bottom:.5rem;letter-spacing:.03em}
+.page-sub{font-size:.9rem;color:var(--muted);margin-top:.8rem}
+.page-rule{width:44px;height:1px;background:var(--gold);opacity:.5;margin:.9rem auto 0}
+
+/* ── BOOKING LAYOUT ── */
+.booking-body{background:var(--surface);padding:3.5rem 2rem 5rem}
+.book-layout{display:grid;grid-template-columns:1.35fr 1fr;gap:4rem;align-items:start}
+.slots-section h3,.form-section h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--white);margin-bottom:1.4rem}
+
+/* ── SLOT GRID ── */
+.slots-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.slots-wrap::-webkit-scrollbar{height:4px}
+.slots-wrap::-webkit-scrollbar-track{background:transparent}
+.slots-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.slots-grid{display:grid;gap:2px;width:max-content}
+.s-head{font-size:.6rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:.45rem .2rem;text-align:center;line-height:1.4}
+.s-head.today-col{color:var(--gold)}
+.s-head strong{font-size:.78rem;color:var(--text);font-weight:600;display:block}
+.s-row-label{font-size:.62rem;color:var(--muted);padding:.55rem .6rem .55rem 0;display:flex;align-items:center;white-space:nowrap}
+.slot{background:var(--bg);border:1px solid var(--border);padding:.5rem .15rem;font-size:.6rem;text-align:center;cursor:pointer;color:var(--muted);transition:all .2s;user-select:none;line-height:1.2}
+.slot:hover{border-color:var(--gold-dk);color:var(--gold)}
+.slot.on{background:var(--gold-dk);border-color:var(--gold);color:var(--white)}
+.slot.past{opacity:.28;cursor:default;pointer-events:none}
+.slot-legend{display:flex;gap:1.4rem;margin-top:.9rem;font-size:.68rem;color:var(--muted)}
+.leg{display:flex;align-items:center;gap:.45rem}
+.leg-box{width:9px;height:9px;border:1px solid}
+.leg-box.av{border-color:var(--border)}
+.leg-box.sel{background:var(--gold-dk);border-color:var(--gold)}
+
+/* ── WEEK NAV ── */
+.week-nav{display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem}
+.week-arrow{background:none;border:1px solid var(--border);color:var(--muted);width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s;flex-shrink:0;line-height:1;padding:0}
+.week-arrow:hover:not(:disabled){border-color:var(--gold-dk);color:var(--gold)}
+.week-arrow:disabled{opacity:.22;cursor:default}
+.week-label-text{font-size:.72rem;color:var(--muted);letter-spacing:.05em;flex:1;text-align:center;white-space:nowrap}
+
+/* ── FORM ── */
+.fgroup{margin-bottom:1.1rem}
+.fgroup label{display:block;font-size:.67rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
+.fgroup input,.fgroup select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.78rem 1rem;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:300;outline:none;transition:border-color .2s;appearance:none;-webkit-appearance:none;border-radius:0}
+.fgroup input:focus,.fgroup select:focus{border-color:var(--gold-dk)}
+.fgroup input::placeholder{color:var(--muted);opacity:.55}
+.fgroup select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6456' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+.fgroup select option{background:var(--surface2)}
+.slot-display{background:var(--bg);border:1px solid var(--border);padding:.78rem 1rem;font-size:.85rem;color:var(--muted);font-style:italic;min-height:44px;transition:border-color .2s}
+.slot-display.has{color:var(--gold);font-style:normal;border-color:var(--gold-dk)}
+.btn-submit{width:100%;justify-content:center;margin-top:1.4rem}
+.err{border-color:#8b2020 !important}
+
+/* ── SIZE NOTE & DESIGN ── */
+.size-note{font-size:.78rem;color:var(--gold-lt);margin-top:.5rem;padding:.45rem .75rem;border-left:2px solid var(--gold-dk);display:none;line-height:1.5}
+.size-note.show{display:block}
+.design-opts{display:flex;flex-direction:column;gap:.5rem;margin-top:.2rem}
+.design-opt{display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.6rem .9rem;border:1px solid var(--border);transition:all .2s;position:relative;line-height:1}
+.design-opt:hover{border-color:var(--gold-dk)}
+.design-opt:has(input:checked){border-color:var(--gold-dk)}
+.design-opt input[type=radio]{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.design-opt-mark{width:16px;height:16px;border:1px solid var(--border);border-radius:50%;flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.design-opt input[type=radio]:checked + .design-opt-mark{border-color:var(--gold);background:var(--gold-dk)}
+.design-opt input[type=radio]:checked + .design-opt-mark::after{content:'✓';font-size:.58rem;color:var(--white);line-height:1;display:block}
+.design-opt-text{font-size:.84rem;color:var(--muted);transition:color .2s;line-height:1.3}
+.design-opt:hover .design-opt-text,.design-opt:has(input:checked) .design-opt-text{color:var(--text)}
+.design-sub{margin-top:.65rem}
+.file-upload-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.6rem 1.1rem;border:1px solid var(--border);color:var(--muted);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-weight:500;font-family:'Inter',sans-serif;user-select:none}
+.file-upload-btn:hover{border-color:var(--gold-dk);color:var(--gold)}
+.file-upload-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
+#fdesignFile{display:none}
+.file-name-display{font-size:.74rem;color:var(--muted);margin-top:.4rem;font-style:italic;opacity:.7;min-height:1.1em}
+.fgroup textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.78rem 1rem;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:300;outline:none;transition:border-color .2s;resize:vertical;min-height:90px;border-radius:0;line-height:1.6}
+.fgroup textarea:focus{border-color:var(--gold-dk)}
+.fgroup textarea::placeholder{color:var(--muted);opacity:.55}
+
+/* ── CONFIRM ── */
+.confirm{display:none;text-align:center;padding:3rem 1.5rem;border:1px solid var(--gold-dk);background:var(--bg)}
+.confirm.show{display:block}
+.confirm-ring{width:58px;height:58px;border:1px solid var(--gold);border-radius:50%;margin:0 auto 1.4rem;display:flex;align-items:center;justify-content:center}
+.confirm-ring svg{width:26px;height:26px;stroke:var(--gold);fill:none;stroke-width:2}
+.confirm h3{font-family:'Cinzel',serif;font-size:1.15rem;color:var(--white);margin-bottom:.7rem}
+.confirm p{color:var(--muted);font-size:.88rem;max-width:300px;margin:0 auto}
+
+/* ── FOOTER ── */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center}
+.foot-name{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold);letter-spacing:.2em;margin-bottom:.4rem}
+footer p{font-size:.78rem;color:var(--muted)}
+footer a{color:var(--gold-dk);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--gold)}
+.foot-sub{margin-top:.4rem;font-size:.68rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.book-layout{grid-template-columns:1fr;gap:2.5rem}}
+@media(max-width:700px){
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(13,13,13,.98);flex-direction:column;padding:1.8rem 2rem;gap:1.3rem;border-bottom:1px solid var(--border)}
+  .nav-links.open{display:flex}
+  .nav-btn{display:flex}
+  .booking-body{padding:2.5rem 1.4rem 4rem}
+  .page-header{padding:7rem 1.4rem 2.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="/" class="nav-logo">ANDINO ART</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#about"    data-i18n="navAbout">Sobre mí</a></li>
+    <li><a href="/#gallery"  data-i18n="navGallery">Trabajos</a></li>
+    <li><a href="/#location" data-i18n="navLocation">Ubicación</a></li>
+    <li><a href="/#hygiene"  data-i18n="navHygiene">Higiene</a></li>
+    <li><a href="/#prices"   data-i18n="navPrices">Precios</a></li>
+    <li><a href="/booking"   data-i18n="navBook" style="color:var(--gold)">Reservar</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="es">ES</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <button class="nav-btn" id="navBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-glow"></div>
+  <p class="page-eyebrow" data-i18n="bookLabel">Ocupa tu Lugar</p>
+  <h1 class="page-h1" data-i18n="bookTitle">Reserva tu sesión.</h1>
+  <p class="page-sub" data-i18n="bookSubtitle">Elige un horario, completa el formulario y te contactaré en menos de 24 horas.</p>
+  <div class="page-rule"></div>
+</div>
+
+<!-- BOOKING -->
+<div class="booking-body">
+  <div class="wrap">
+    <div class="book-layout">
+
+      <!-- CALENDAR -->
+      <div class="slots-section">
+        <h3 data-i18n="slotsH3">Elige un horario disponible</h3>
+        <div class="week-nav">
+          <button class="week-arrow" id="weekPrev" disabled>&#8592;</button>
+          <span class="week-label-text" id="weekLabel"></span>
+          <button class="week-arrow" id="weekNext">&#8594;</button>
+        </div>
+        <div class="slots-wrap">
+          <div class="slots-grid" id="slotsGrid"></div>
+        </div>
+        <div class="slot-legend">
+          <div class="leg"><div class="leg-box av"></div> <span data-i18n="legAvail">Disponible</span></div>
+          <div class="leg"><div class="leg-box sel"></div> <span data-i18n="legSel">Seleccionado</span></div>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div class="form-section">
+        <h3 data-i18n="formH3">Tus datos</h3>
+        <div id="formWrap">
+          <form id="bookForm" novalidate>
+            <div class="fgroup">
+              <label for="fname" data-i18n="labelName">Nombre Completo</label>
+              <input type="text" id="fname" data-i18n-ph="phName" placeholder="Tu nombre completo" autocomplete="name">
+            </div>
+            <div class="fgroup">
+              <label for="femail" data-i18n="labelEmail">Correo Electrónico</label>
+              <input type="email" id="femail" data-i18n-ph="phEmail" placeholder="tu@correo.com" autocomplete="email">
+            </div>
+            <div class="fgroup">
+              <label for="fwa" data-i18n="labelWa">Número de WhatsApp</label>
+              <input type="tel" id="fwa" data-i18n-ph="phWa" placeholder="+34 612 345 678" autocomplete="tel">
+            </div>
+            <div class="fgroup">
+              <label data-i18n="labelSlot">Horario Preferido</label>
+              <div class="slot-display" id="slotDisplay" data-i18n="slotPh">Selecciona un horario del calendario</div>
+              <input type="hidden" id="fslot">
+            </div>
+            <div class="fgroup">
+              <label for="fsize" data-i18n="labelSize">Tamaño del Tatuaje</label>
+              <select id="fsize">
+                <option value="" disabled selected data-i18n="sizeDefault">Elige un tamaño</option>
+                <option value="small"  data-i18n="sizeSmall">Pequeño</option>
+                <option value="medium" data-i18n="sizeMed">Mediano</option>
+                <option value="large"  data-i18n="sizeLg">Grande</option>
+              </select>
+              <p class="size-note" id="sizeNote" data-i18n="largeNote">Los tatuajes grandes pueden requerir más de una sesión.</p>
+            </div>
+            <div class="fgroup">
+              <label data-i18n="designLabel">Diseño</label>
+              <div class="design-opts">
+                <label class="design-opt">
+                  <input type="radio" name="fdesign" value="own">
+                  <span class="design-opt-mark"></span>
+                  <span class="design-opt-text" data-i18n="designOwn">Tengo mi propio diseño</span>
+                </label>
+                <label class="design-opt">
+                  <input type="radio" name="fdesign" value="artist">
+                  <span class="design-opt-mark"></span>
+                  <span class="design-opt-text" data-i18n="designArtist">Necesito que el artista diseñe</span>
+                </label>
+              </div>
+              <div class="design-sub" id="designSubOwn" style="display:none">
+                <label class="file-upload-btn" for="fdesignFile">
+                  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                  <span data-i18n="uploadBtn">Subir imagen</span>
+                </label>
+                <input type="file" id="fdesignFile" accept="image/*">
+                <p class="file-name-display" id="designFileName">Ningún archivo seleccionado</p>
+              </div>
+              <div class="design-sub" id="designSubArtist" style="display:none">
+                <textarea id="fdesignDetails" rows="3" data-i18n-ph="phDesignDetails" placeholder="Cuéntame sobre el diseño que tienes en mente..."></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-gold btn-submit" data-i18n="submitBtn">Solicitar Reserva</button>
+          </form>
+        </div>
+        <div class="confirm" id="confirm">
+          <div class="confirm-ring">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </div>
+          <h3 data-i18n="confirmH3">Solicitud Recibida</h3>
+          <p data-i18n="confirmP">¡Gracias! Me pondré en contacto por WhatsApp en menos de 24 horas para confirmar tu sesión y coordinar el depósito.</p>
+          <button class="btn btn-ghost" id="bookAnotherBtn" style="margin-top:1.5rem" data-i18n="bookAnother">Hacer otra reserva</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="foot-name">ANDINO ART</p>
+  <p><span data-i18n="footerDesc">Artista de Tatuajes</span> &middot; Barcelona &middot; <a href="https://instagram.com/andinoart.ink" target="_blank" rel="noopener">@andinoart.ink</a></p>
+  <p class="foot-sub">&copy; 2025 Andino Art. <span data-i18n="rights">Todos los derechos reservados.</span></p>
+</footer>
+
+<script>
+(function () {
+
+  var T = {
+    es: {
+      pageTitle:       'Reservar — Andino Art',
+      navAbout:        'Sobre mí', navGallery: 'Trabajos', navLocation: 'Ubicación',
+      navHygiene:      'Higiene',  navPrices:  'Precios',  navBook:     'Reservar',
+      bookLabel:       'Ocupa tu Lugar',
+      bookTitle:       'Reserva tu sesión.',
+      bookSubtitle:    'Elige un horario, completa el formulario y te contactaré en menos de 24 horas.',
+      slotsH3:         'Elige un horario disponible',
+      legAvail:        'Disponible', legSel: 'Seleccionado',
+      formH3:          'Tus datos',
+      labelName:       'Nombre Completo', labelEmail: 'Correo Electrónico',
+      labelWa:         'Número de WhatsApp', labelSlot: 'Horario Preferido', labelSize: 'Tamaño del Tatuaje',
+      phName:          'Tu nombre completo', phEmail: 'tu@correo.com', phWa: '+34 612 345 678',
+      slotPh:          'Selecciona un horario del calendario',
+      sizeDefault:     'Elige un tamaño',
+      sizeSmall:       'Pequeño', sizeMed: 'Mediano', sizeLg: 'Grande',
+      largeNote:       'Los tatuajes grandes pueden requerir más de una sesión.',
+      designLabel:     'Diseño',
+      designOwn:       'Tengo mi propio diseño',
+      designArtist:    'Necesito que el artista diseñe',
+      uploadBtn:       'Subir imagen',
+      noFileChosen:    'Ningún archivo seleccionado',
+      phDesignDetails: 'Cuéntame sobre el diseño que tienes en mente — estilo, tamaño aproximado, elementos...',
+      submitBtn:       'Solicitar Reserva',
+      confirmH3:       'Solicitud Recibida',
+      confirmP:        '¡Gracias! Me pondré en contacto por WhatsApp en menos de 24 horas para confirmar tu sesión y coordinar el depósito.',
+      bookAnother:     'Hacer otra reserva',
+      footerDesc:      'Artista de Tatuajes',
+      rights:          'Todos los derechos reservados.',
+      days:   ['Lun','Mar','Mié','Jue','Vie','Sáb'],
+      months: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+      amLabel: 'Mañana<br>9 – 12', pmLabel: 'Tarde<br>13 – 17', evLabel: 'Noche<br>17 – 23',
+      amSlotLabel: 'Mañana 9–12', pmSlotLabel: 'Tarde 13–17', evSlotLabel: 'Noche 17–23'
+    },
+    en: {
+      pageTitle:       'Book — Andino Art',
+      navAbout:        'About', navGallery: 'Work', navLocation: 'Location',
+      navHygiene:      'Hygiene', navPrices: 'Prices', navBook: 'Book',
+      bookLabel:       'Get in the Chair',
+      bookTitle:       'Book your session.',
+      bookSubtitle:    'Pick a slot, fill in the form, and I\'ll reach out within 24 hours.',
+      slotsH3:         'Pick an available time slot',
+      legAvail:        'Available', legSel: 'Selected',
+      formH3:          'Your details',
+      labelName:       'Full Name', labelEmail: 'Email Address',
+      labelWa:         'WhatsApp Number', labelSlot: 'Preferred Time Slot', labelSize: 'Tattoo Size',
+      phName:          'Your full name', phEmail: 'you@example.com', phWa: '+34 612 345 678',
+      slotPh:          'Select a slot from the calendar',
+      sizeDefault:     'Choose a size',
+      sizeSmall:       'Small', sizeMed: 'Medium', sizeLg: 'Large',
+      largeNote:       'Large tattoos may require more than one session.',
+      designLabel:     'Design',
+      designOwn:       'I have my own design',
+      designArtist:    'I need the artist to design it',
+      uploadBtn:       'Upload image',
+      noFileChosen:    'No file chosen',
+      phDesignDetails: 'Tell me about the design you have in mind — style, approximate size, elements...',
+      submitBtn:       'Request Booking',
+      confirmH3:       'Request Received',
+      confirmP:        'Thanks! I\'ll reach out via WhatsApp within 24 hours to confirm your session and arrange the deposit.',
+      bookAnother:     'Book another session',
+      footerDesc:      'Tattoo Artist',
+      rights:          'All rights reserved.',
+      days:   ['Mon','Tue','Wed','Thu','Fri','Sat'],
+      months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      amLabel: 'Morning<br>9 – 12', pmLabel: 'Afternoon<br>13 – 17', evLabel: 'Evening<br>17 – 23',
+      amSlotLabel: 'Morning 9–12', pmSlotLabel: 'Afternoon 13–17', evSlotLabel: 'Evening 17–23'
+    }
+  };
+
+  var lang = localStorage.getItem('lang') || 'es';
+  var selectedSlotKey = '';
+  var weekOffset = 0;
+
+  function applyLang(l) {
+    lang = l;
+    localStorage.setItem('lang', l);
+    document.documentElement.lang = l;
+    document.title = T[l].pageTitle;
+
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.dataset.i18n;
+      if (T[l][key] !== undefined) el.textContent = T[l][key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+      var key = el.dataset.i18nHtml;
+      if (T[l][key] !== undefined) el.innerHTML = T[l][key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+      var key = el.dataset.i18nPh;
+      if (T[l][key] !== undefined) el.placeholder = T[l][key];
+    });
+
+    var disp = document.getElementById('slotDisplay');
+    if (!selectedSlotKey) { disp.textContent = T[l].slotPh; disp.classList.remove('has'); }
+
+    document.querySelectorAll('.lang-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.lang === l);
+    });
+
+    var fnEl = document.getElementById('designFileName');
+    if (fnEl && !fnEl.dataset.hasFile) fnEl.textContent = T[l].noFileChosen;
+
+    buildGrid();
+  }
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  function fmtKey(dt) {
+    var y = dt.getFullYear();
+    var m = String(dt.getMonth()+1).padStart(2,'0');
+    var d = String(dt.getDate()).padStart(2,'0');
+    return y+'-'+m+'-'+d;
+  }
+
+  function buildGrid() {
+    var grid = document.getElementById('slotsGrid');
+    grid.innerHTML = '';
+    var t = T[lang];
+
+    var today = new Date(); today.setHours(0,0,0,0);
+    var weekStart = new Date(today);
+    weekStart.setDate(weekStart.getDate() + weekOffset * 7);
+
+    var dates = [];
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(weekStart);
+      d.setDate(d.getDate() + i);
+      var dow = d.getDay();
+      if (dow >= 1 && dow <= 6) dates.push(new Date(d));
+    }
+
+    var labelEl = document.getElementById('weekLabel');
+    if (dates.length > 0) {
+      var first = dates[0], last = dates[dates.length-1];
+      if (first.getMonth() === last.getMonth()) {
+        labelEl.textContent = first.getDate() + ' – ' + last.getDate() + ' ' + t.months[first.getMonth()] + ' ' + first.getFullYear();
+      } else {
+        labelEl.textContent = first.getDate() + ' ' + t.months[first.getMonth()] + ' – ' + last.getDate() + ' ' + t.months[last.getMonth()] + ' ' + last.getFullYear();
+      }
+    } else {
+      labelEl.textContent = t.months[weekStart.getMonth()] + ' ' + weekStart.getFullYear();
+    }
+
+    document.getElementById('weekPrev').disabled = (weekOffset === 0);
+    document.getElementById('weekNext').disabled = (weekOffset === 11);
+
+    grid.style.gridTemplateColumns = '72px repeat(' + (dates.length || 1) + ', 66px)';
+
+    grid.appendChild(el('div', 's-head'));
+    var todayStr = fmtKey(today);
+    dates.forEach(function(dt) {
+      var dayName = t.days[dt.getDay()-1];
+      var monthName = t.months[dt.getMonth()];
+      var cls = 's-head' + (fmtKey(dt) === todayStr ? ' today-col' : '');
+      grid.appendChild(el('div', cls, dayName + '<br><strong>' + dt.getDate() + '</strong>&nbsp;' + monthName));
+    });
+
+    [{label:t.amLabel,key:'AM',slotLabel:t.amSlotLabel},
+     {label:t.pmLabel,key:'PM',slotLabel:t.pmSlotLabel},
+     {label:t.evLabel,key:'EV',slotLabel:t.evSlotLabel}].forEach(function(p) {
+      grid.appendChild(el('div', 's-row-label', p.label));
+      dates.forEach(function(dt) {
+        var dk = fmtKey(dt);
+        var slotKey = dk + '-' + p.key;
+        var dayName = t.days[dt.getDay()-1];
+        var monthName = t.months[dt.getMonth()];
+        var slotLabel = dayName + ' ' + dt.getDate() + ' ' + monthName + ', ' + p.slotLabel;
+        var past = dt.getTime() < today.getTime();
+        var s = el('div', 'slot' + (past ? ' past' : ''), '');
+        s.dataset.key = slotKey;
+        s.dataset.label = slotLabel;
+        if (slotKey === selectedSlotKey) s.classList.add('on');
+        if (!past) {
+          s.addEventListener('click', function() {
+            grid.querySelectorAll('.slot.on').forEach(function(x) { x.classList.remove('on'); });
+            s.classList.add('on');
+            selectedSlotKey = slotKey;
+            var disp = document.getElementById('slotDisplay');
+            disp.textContent = slotLabel;
+            disp.classList.add('has');
+            disp.classList.remove('err');
+            document.getElementById('fslot').value = slotKey;
+          });
+        }
+        grid.appendChild(s);
+      });
+    });
+
+    if (selectedSlotKey) {
+      var sel = grid.querySelector('.slot[data-key="' + selectedSlotKey + '"]');
+      if (sel) {
+        var disp = document.getElementById('slotDisplay');
+        disp.textContent = sel.dataset.label;
+        disp.classList.add('has');
+      }
+    }
+  }
+
+  // NAV
+  var navBtn = document.getElementById('navBtn');
+  var navLinks = document.getElementById('navLinks');
+  navBtn.addEventListener('click', function () {
+    navBtn.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  window.addEventListener('scroll', function () {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // LANG
+  document.querySelectorAll('.lang-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.lang !== lang) applyLang(b.dataset.lang);
+    });
+  });
+
+  // WEEK NAV
+  document.getElementById('weekPrev').addEventListener('click', function () {
+    if (weekOffset > 0) { weekOffset--; buildGrid(); }
+  });
+  document.getElementById('weekNext').addEventListener('click', function () {
+    if (weekOffset < 11) { weekOffset++; buildGrid(); }
+  });
+
+  // SIZE NOTE
+  document.getElementById('fsize').addEventListener('change', function () {
+    document.getElementById('sizeNote').classList.toggle('show', this.value === 'large');
+  });
+
+  // DESIGN TOGGLE
+  document.querySelectorAll('input[name="fdesign"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      document.getElementById('designSubOwn').style.display    = this.value === 'own'    ? 'block' : 'none';
+      document.getElementById('designSubArtist').style.display = this.value === 'artist' ? 'block' : 'none';
+    });
+  });
+
+  // FILE INPUT
+  document.getElementById('fdesignFile').addEventListener('change', function () {
+    var fnEl = document.getElementById('designFileName');
+    if (this.files.length > 0) {
+      fnEl.textContent = this.files[0].name;
+      fnEl.dataset.hasFile = '1';
+    } else {
+      fnEl.textContent = T[lang].noFileChosen;
+      delete fnEl.dataset.hasFile;
+    }
+  });
+
+  // FORM SUBMIT
+  document.getElementById('bookForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nameEl   = document.getElementById('fname');
+    var emailEl  = document.getElementById('femail');
+    var waEl     = document.getElementById('fwa');
+    var sizeEl   = document.getElementById('fsize');
+    var slotEl   = document.getElementById('fslot');
+    var disp     = document.getElementById('slotDisplay');
+    var designEl = document.querySelector('input[name="fdesign"]:checked');
+    var valid    = true;
+
+    [nameEl, emailEl, waEl, sizeEl].forEach(function (f) {
+      if (!f.value.trim()) { f.classList.add('err'); valid = false; }
+      else f.classList.remove('err');
+    });
+    if (!slotEl.value) { disp.classList.add('err'); valid = false; }
+    if (!valid) return;
+
+    var design = designEl ? designEl.value : '';
+    var designNote = '';
+    var fi = document.getElementById('fdesignFile');
+    if (designEl && designEl.value === 'own') {
+      designNote = fi.files.length > 0 ? fi.files[0].name : '';
+    } else if (designEl && designEl.value === 'artist') {
+      designNote = document.getElementById('fdesignDetails').value.trim();
+    }
+
+    var fd = new FormData();
+    fd.append('name',       nameEl.value.trim());
+    fd.append('email',      emailEl.value.trim());
+    fd.append('whatsapp',   waEl.value.trim());
+    fd.append('slot',       disp.textContent);
+    fd.append('size',       sizeEl.value);
+    fd.append('lang',       lang);
+    fd.append('design',     design);
+    fd.append('designNote', designNote);
+    if (design === 'own' && fi.files.length > 0) fd.append('designImage', fi.files[0]);
+
+    fetch('/api/booking', { method: 'POST', body: fd }).catch(function () {});
+
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('confirm').classList.add('show');
+  });
+
+  document.querySelectorAll('.fgroup input, .fgroup select').forEach(function (f) {
+    f.addEventListener('input', function () { f.classList.remove('err'); });
+  });
+
+  // BOOK ANOTHER
+  function resetBooking() {
+    document.getElementById('formWrap').style.display = 'block';
+    document.getElementById('confirm').classList.remove('show');
+    document.getElementById('bookForm').reset();
+    selectedSlotKey = '';
+    var disp = document.getElementById('slotDisplay');
+    disp.textContent = T[lang].slotPh;
+    disp.classList.remove('has','err');
+    document.getElementById('fslot').value = '';
+    document.getElementById('sizeNote').classList.remove('show');
+    document.getElementById('designSubOwn').style.display    = 'none';
+    document.getElementById('designSubArtist').style.display = 'none';
+    var fnEl = document.getElementById('designFileName');
+    fnEl.textContent = T[lang].noFileChosen;
+    delete fnEl.dataset.hasFile;
+    buildGrid();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.getElementById('bookAnotherBtn').addEventListener('click', resetBooking);
+
+  applyLang(lang);
+
+})();
+</script>
+</body>
+</html>

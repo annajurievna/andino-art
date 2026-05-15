@@ -134,20 +134,54 @@ section{padding:6rem 2rem}
 #booking{background:var(--surface)}
 .book-layout{display:grid;grid-template-columns:1.25fr 1fr;gap:4rem;align-items:start}
 .slots-section h3,.form-section h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--white);margin-bottom:1.4rem}
-.slots-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.slots-grid{display:grid;grid-template-columns:auto repeat(6,1fr);gap:3px;min-width:340px}
-.s-head{font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:.5rem .2rem;text-align:center}
-.s-row-label{font-size:.65rem;color:var(--muted);padding:.55rem .7rem .55rem 0;display:flex;align-items:center;white-space:nowrap}
-.slot{background:var(--bg);border:1px solid var(--border);padding:.55rem .2rem;font-size:.62rem;text-align:center;cursor:pointer;color:var(--muted);transition:all .2s;user-select:none;line-height:1.2}
-.slot:hover:not(.off){border-color:var(--gold-dk);color:var(--gold)}
+.slots-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.slots-wrap::-webkit-scrollbar{height:4px}
+.slots-wrap::-webkit-scrollbar-track{background:transparent}
+.slots-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.slots-grid{display:grid;gap:2px;width:max-content}
+.s-head{font-size:.6rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:.45rem .2rem;text-align:center;line-height:1.4}
+.s-head.today-col{color:var(--gold)}
+.s-head strong{font-size:.78rem;color:var(--text);font-weight:600;display:block}
+.s-row-label{font-size:.62rem;color:var(--muted);padding:.55rem .6rem .55rem 0;display:flex;align-items:center;white-space:nowrap}
+.slot{background:var(--bg);border:1px solid var(--border);padding:.5rem .15rem;font-size:.6rem;text-align:center;cursor:pointer;color:var(--muted);transition:all .2s;user-select:none;line-height:1.2}
+.slot:hover{border-color:var(--gold-dk);color:var(--gold)}
 .slot.on{background:var(--gold-dk);border-color:var(--gold);color:var(--white)}
-.slot.off{opacity:.28;cursor:not-allowed}
+.slot-hint{font-size:.65rem;color:var(--muted);margin-top:.6rem;opacity:.6}
 .slot-legend{display:flex;gap:1.4rem;margin-top:.9rem;font-size:.68rem;color:var(--muted)}
 .leg{display:flex;align-items:center;gap:.45rem}
 .leg-box{width:9px;height:9px;border:1px solid}
 .leg-box.av{border-color:var(--border)}
 .leg-box.sel{background:var(--gold-dk);border-color:var(--gold)}
-.leg-box.off{border-color:var(--border);opacity:.3}
+
+/* ── WEEK NAV ── */
+.week-nav{display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem}
+.week-arrow{background:none;border:1px solid var(--border);color:var(--muted);width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s;flex-shrink:0;line-height:1;padding:0}
+.week-arrow:hover:not(:disabled){border-color:var(--gold-dk);color:var(--gold)}
+.week-arrow:disabled{opacity:.22;cursor:default}
+.week-label-text{font-size:.72rem;color:var(--muted);letter-spacing:.05em;flex:1;text-align:center;white-space:nowrap}
+.slot.past{opacity:.28;cursor:default;pointer-events:none}
+/* ── SIZE NOTE & DESIGN ── */
+.size-note{font-size:.78rem;color:var(--gold-lt);margin-top:.5rem;padding:.45rem .75rem;border-left:2px solid var(--gold-dk);display:none;line-height:1.5}
+.size-note.show{display:block}
+.design-opts{display:flex;flex-direction:column;gap:.5rem;margin-top:.2rem}
+.design-opt{display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.6rem .9rem;border:1px solid var(--border);transition:all .2s;position:relative;line-height:1}
+.design-opt:hover{border-color:var(--gold-dk)}
+.design-opt:has(input:checked){border-color:var(--gold-dk)}
+.design-opt input[type=radio]{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.design-opt-mark{width:16px;height:16px;border:1px solid var(--border);border-radius:50%;flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.design-opt input[type=radio]:checked + .design-opt-mark{border-color:var(--gold);background:var(--gold-dk)}
+.design-opt input[type=radio]:checked + .design-opt-mark::after{content:'✓';font-size:.58rem;color:var(--white);line-height:1;display:block}
+.design-opt-text{font-size:.84rem;color:var(--muted);transition:color .2s;line-height:1.3}
+.design-opt:hover .design-opt-text,.design-opt:has(input:checked) .design-opt-text{color:var(--text)}
+.design-sub{margin-top:.65rem}
+.file-upload-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.6rem 1.1rem;border:1px solid var(--border);color:var(--muted);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-weight:500;font-family:'Inter',sans-serif;user-select:none}
+.file-upload-btn:hover{border-color:var(--gold-dk);color:var(--gold)}
+.file-upload-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
+#fdesignFile{display:none}
+.file-name-display{font-size:.74rem;color:var(--muted);margin-top:.4rem;font-style:italic;opacity:.7;min-height:1.1em}
+.fgroup textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.78rem 1rem;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:300;outline:none;transition:border-color .2s;resize:vertical;min-height:90px;border-radius:0;line-height:1.6}
+.fgroup textarea:focus{border-color:var(--gold-dk)}
+.fgroup textarea::placeholder{color:var(--muted);opacity:.55}
 
 /* ── FORM ── */
 .fgroup{margin-bottom:1.1rem}
@@ -212,7 +246,7 @@ footer a:hover{color:var(--gold)}
     <li><a href="#location" data-i18n="navLocation">Ubicación</a></li>
     <li><a href="#hygiene"  data-i18n="navHygiene">Higiene</a></li>
     <li><a href="#prices"   data-i18n="navPrices">Precios</a></li>
-    <li><a href="#booking"  data-i18n="navBook">Reservar</a></li>
+    <li><a href="/booking"  data-i18n="navBook">Reservar</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switch">
@@ -478,6 +512,11 @@ footer a:hover{color:var(--gold)}
     <div class="book-layout">
       <div class="slots-section">
         <h3 data-i18n="slotsH3">Elige un horario disponible</h3>
+        <div class="week-nav">
+          <button class="week-arrow" id="weekPrev" disabled>&#8592;</button>
+          <span class="week-label-text" id="weekLabel"></span>
+          <button class="week-arrow" id="weekNext">&#8594;</button>
+        </div>
         <div class="slots-wrap">
           <div class="slots-grid" id="slotsGrid"></div>
         </div>
@@ -512,10 +551,37 @@ footer a:hover{color:var(--gold)}
               <label for="fsize" data-i18n="labelSize">Tamaño del Tatuaje</label>
               <select id="fsize">
                 <option value="" disabled selected data-i18n="sizeDefault">Elige un tamaño</option>
-                <option value="small"  data-i18n="sizeSmall">Pequeño — €50–€150</option>
-                <option value="medium" data-i18n="sizeMed">Mediano — €150–€400</option>
-                <option value="large"  data-i18n="sizeLg">Grande — €400–€1.000+</option>
+                <option value="small"  data-i18n="sizeSmall">Pequeño</option>
+                <option value="medium" data-i18n="sizeMed">Mediano</option>
+                <option value="large"  data-i18n="sizeLg">Grande</option>
               </select>
+              <p class="size-note" id="sizeNote" data-i18n="largeNote">Los tatuajes grandes pueden requerir más de una sesión.</p>
+            </div>
+            <div class="fgroup">
+              <label data-i18n="designLabel">Diseño</label>
+              <div class="design-opts">
+                <label class="design-opt">
+                  <input type="radio" name="fdesign" value="own">
+                  <span class="design-opt-mark"></span>
+                  <span class="design-opt-text" data-i18n="designOwn">Tengo mi propio diseño</span>
+                </label>
+                <label class="design-opt">
+                  <input type="radio" name="fdesign" value="artist">
+                  <span class="design-opt-mark"></span>
+                  <span class="design-opt-text" data-i18n="designArtist">Necesito que el artista diseñe</span>
+                </label>
+              </div>
+              <div class="design-sub" id="designSubOwn" style="display:none">
+                <label class="file-upload-btn" for="fdesignFile">
+                  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                  <span data-i18n="uploadBtn">Subir imagen</span>
+                </label>
+                <input type="file" id="fdesignFile" accept="image/*">
+                <p class="file-name-display" id="designFileName">Ningún archivo seleccionado</p>
+              </div>
+              <div class="design-sub" id="designSubArtist" style="display:none">
+                <textarea id="fdesignDetails" rows="3" data-i18n-ph="phDesignDetails" placeholder="Cuéntame sobre el diseño que tienes en mente..."></textarea>
+              </div>
             </div>
             <button type="submit" class="btn btn-gold btn-submit" data-i18n="submitBtn">Solicitar Reserva</button>
           </form>
@@ -526,6 +592,7 @@ footer a:hover{color:var(--gold)}
           </div>
           <h3 data-i18n="confirmH3">Solicitud Recibida</h3>
           <p data-i18n="confirmP">¡Gracias! Me pondré en contacto por WhatsApp en menos de 24 horas para confirmar tu sesión y coordinar el depósito.</p>
+          <button class="btn btn-ghost" id="bookAnotherBtn" style="margin-top:1.5rem" data-i18n="bookAnother">Hacer otra reserva</button>
         </div>
       </div>
     </div>
@@ -623,13 +690,22 @@ footer a:hover{color:var(--gold)}
       phName:       'Tu nombre completo', phEmail: 'tu@correo.com', phWa: '+34 612 345 678',
       slotPh:       'Selecciona un horario del calendario',
       sizeDefault:  'Elige un tamaño',
-      sizeSmall:    'Pequeño — €50–€150', sizeMed: 'Mediano — €150–€400', sizeLg: 'Grande — €400–€1.000+',
+      sizeSmall:    'Pequeño', sizeMed: 'Mediano', sizeLg: 'Grande',
+      largeNote:    'Los tatuajes grandes pueden requerir más de una sesión.',
+      designLabel:  'Diseño',
+      designOwn:    'Tengo mi propio diseño',
+      designArtist: 'Necesito que el artista diseñe',
+      uploadBtn:    'Subir imagen',
+      noFileChosen: 'Ningún archivo seleccionado',
+      phDesignDetails: 'Cuéntame sobre el diseño que tienes en mente — estilo, tamaño aproximado, elementos...',
       submitBtn:    'Solicitar Reserva',
       confirmH3:    'Solicitud Recibida',
       confirmP:     '¡Gracias! Me pondré en contacto por WhatsApp en menos de 24 horas para confirmar tu sesión y coordinar el depósito.',
+      bookAnother:  'Hacer otra reserva',
       footerDesc:   'Artista de Tatuajes',
       rights:       'Todos los derechos reservados.',
       days:         ['Lun','Mar','Mié','Jue','Vie','Sáb'],
+      months:       ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
       amLabel:      'Mañana<br>9 – 12', pmLabel: 'Tarde<br>13 – 17', evLabel: 'Noche<br>17 – 23',
       amSlotLabel:  'Mañana 9–12',      pmSlotLabel: 'Tarde 13–17',  evSlotLabel: 'Noche 17–23'
     },
@@ -712,13 +788,22 @@ footer a:hover{color:var(--gold)}
       phName:       'Your full name', phEmail: 'you@example.com', phWa: '+34 612 345 678',
       slotPh:       'Select a slot from the calendar',
       sizeDefault:  'Choose a size',
-      sizeSmall:    'Small — €50–€150', sizeMed: 'Medium — €150–€400', sizeLg: 'Large — €400–€1,000+',
+      sizeSmall:    'Small', sizeMed: 'Medium', sizeLg: 'Large',
+      largeNote:    'Large tattoos may require more than one session.',
+      designLabel:  'Design',
+      designOwn:    'I have my own design',
+      designArtist: 'I need the artist to design it',
+      uploadBtn:    'Upload image',
+      noFileChosen: 'No file chosen',
+      phDesignDetails: 'Tell me about the design you have in mind — style, approximate size, elements...',
       submitBtn:    'Request Booking',
       confirmH3:    'Request Received',
       confirmP:     'Thanks! I\'ll reach out via WhatsApp within 24 hours to confirm your session and arrange the deposit.',
+      bookAnother:  'Book another session',
       footerDesc:   'Tattoo Artist',
       rights:       'All rights reserved.',
       days:         ['Mon','Tue','Wed','Thu','Fri','Sat'],
+      months:       ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
       amLabel:      'Morning<br>9 – 12', pmLabel: 'Afternoon<br>13 – 17', evLabel: 'Evening<br>17 – 23',
       amSlotLabel:  'Morning 9–12',      pmSlotLabel: 'Afternoon 13–17',  evSlotLabel: 'Evening 17–23'
     }
@@ -727,8 +812,7 @@ footer a:hover{color:var(--gold)}
   // ── STATE ──────────────────────────────────────────────────────
   var lang = localStorage.getItem('lang') || 'es';
   var selectedSlotKey = '';
-  var unavail = { 'Mon-AM':1, 'Wed-PM':1, 'Fri-AM':1, 'Sat-PM':1, 'Thu-AM':1 };
-  var dayKeys = ['Mon','Tue','Wed','Thu','Fri','Sat'];
+  var weekOffset = 0;
 
   // ── APPLY LANGUAGE ─────────────────────────────────────────────
   function applyLang(l) {
@@ -762,6 +846,10 @@ footer a:hover{color:var(--gold)}
       b.classList.toggle('active', b.dataset.lang === l);
     });
 
+    // reset file name display if no file selected
+    var fnEl = document.getElementById('designFileName');
+    if (fnEl && !fnEl.dataset.hasFile) fnEl.textContent = T[l].noFileChosen;
+
     buildGrid();
   }
 
@@ -773,44 +861,94 @@ footer a:hover{color:var(--gold)}
     return e;
   }
 
+  function fmtKey(dt) {
+    var y = dt.getFullYear();
+    var m = String(dt.getMonth()+1).padStart(2,'0');
+    var d = String(dt.getDate()).padStart(2,'0');
+    return y+'-'+m+'-'+d;
+  }
+
   function buildGrid() {
     var grid = document.getElementById('slotsGrid');
     grid.innerHTML = '';
     var t = T[lang];
 
+    var today = new Date(); today.setHours(0,0,0,0);
+    var weekStart = new Date(today);
+    weekStart.setDate(weekStart.getDate() + weekOffset * 7);
+
+    // collect Mon–Sat dates within this 7-day window
+    var dates = [];
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(weekStart);
+      d.setDate(d.getDate() + i);
+      var dow = d.getDay();
+      if (dow >= 1 && dow <= 6) dates.push(new Date(d));
+    }
+
+    // week label
+    var labelEl = document.getElementById('weekLabel');
+    if (dates.length > 0) {
+      var first = dates[0], last = dates[dates.length-1];
+      if (first.getMonth() === last.getMonth()) {
+        labelEl.textContent = first.getDate() + ' – ' + last.getDate() + ' ' + t.months[first.getMonth()] + ' ' + first.getFullYear();
+      } else {
+        labelEl.textContent = first.getDate() + ' ' + t.months[first.getMonth()] + ' – ' + last.getDate() + ' ' + t.months[last.getMonth()] + ' ' + last.getFullYear();
+      }
+    } else {
+      labelEl.textContent = t.months[weekStart.getMonth()] + ' ' + weekStart.getFullYear();
+    }
+
+    // nav arrows
+    document.getElementById('weekPrev').disabled = (weekOffset === 0);
+    document.getElementById('weekNext').disabled = (weekOffset === 11);
+
+    // set dynamic grid columns
+    grid.style.gridTemplateColumns = '72px repeat(' + (dates.length || 1) + ', 66px)';
+
     // header row
     grid.appendChild(el('div', 's-head'));
-    t.days.forEach(function (d) { grid.appendChild(el('div', 's-head', d)); });
+    var todayStr = fmtKey(today);
+    dates.forEach(function(dt) {
+      var dayName = t.days[dt.getDay()-1];
+      var monthName = t.months[dt.getMonth()];
+      var cls = 's-head' + (fmtKey(dt) === todayStr ? ' today-col' : '');
+      grid.appendChild(el('div', cls, dayName + '<br><strong>' + dt.getDate() + '</strong>&nbsp;' + monthName));
+    });
 
     // period rows
-    [{ label: t.amLabel, key: 'AM', slotLabel: t.amSlotLabel },
-     { label: t.pmLabel, key: 'PM', slotLabel: t.pmSlotLabel },
-     { label: t.evLabel, key: 'EV', slotLabel: t.evSlotLabel }].forEach(function (p) {
+    [{label:t.amLabel,key:'AM',slotLabel:t.amSlotLabel},
+     {label:t.pmLabel,key:'PM',slotLabel:t.pmSlotLabel},
+     {label:t.evLabel,key:'EV',slotLabel:t.evSlotLabel}].forEach(function(p) {
       grid.appendChild(el('div', 's-row-label', p.label));
-      dayKeys.forEach(function (dk, i) {
-        var key = dk + '-' + p.key;
-        var off = !!unavail[key];
-        var s = el('div', 'slot' + (off ? ' off' : ''), off ? '&times;' : '&check;');
-        s.dataset.key = key;
-        s.dataset.label = t.days[i] + ', ' + p.slotLabel;
-        if (key === selectedSlotKey) s.classList.add('on');
-        if (!off) {
-          s.addEventListener('click', function () {
-            grid.querySelectorAll('.slot.on').forEach(function (x) { x.classList.remove('on'); });
+      dates.forEach(function(dt) {
+        var dk = fmtKey(dt);
+        var slotKey = dk + '-' + p.key;
+        var dayName = t.days[dt.getDay()-1];
+        var monthName = t.months[dt.getMonth()];
+        var slotLabel = dayName + ' ' + dt.getDate() + ' ' + monthName + ', ' + p.slotLabel;
+        var past = dt.getTime() < today.getTime();
+        var s = el('div', 'slot' + (past ? ' past' : ''), '');
+        s.dataset.key = slotKey;
+        s.dataset.label = slotLabel;
+        if (slotKey === selectedSlotKey) s.classList.add('on');
+        if (!past) {
+          s.addEventListener('click', function() {
+            grid.querySelectorAll('.slot.on').forEach(function(x) { x.classList.remove('on'); });
             s.classList.add('on');
-            selectedSlotKey = key;
+            selectedSlotKey = slotKey;
             var disp = document.getElementById('slotDisplay');
-            disp.textContent = s.dataset.label;
+            disp.textContent = slotLabel;
             disp.classList.add('has');
             disp.classList.remove('err');
-            document.getElementById('fslot').value = key;
+            document.getElementById('fslot').value = slotKey;
           });
         }
         grid.appendChild(s);
       });
     });
 
-    // refresh slot display label if slot already selected
+    // refresh slot display if a slot was previously selected
     if (selectedSlotKey) {
       var sel = grid.querySelector('.slot[data-key="' + selectedSlotKey + '"]');
       if (sel) {
@@ -845,16 +983,50 @@ footer a:hover{color:var(--gold)}
     });
   });
 
+  // ── WEEK NAV ───────────────────────────────────────────────────
+  document.getElementById('weekPrev').addEventListener('click', function () {
+    if (weekOffset > 0) { weekOffset--; buildGrid(); }
+  });
+  document.getElementById('weekNext').addEventListener('click', function () {
+    if (weekOffset < 11) { weekOffset++; buildGrid(); }
+  });
+
+  // ── SIZE NOTE ──────────────────────────────────────────────────
+  document.getElementById('fsize').addEventListener('change', function () {
+    document.getElementById('sizeNote').classList.toggle('show', this.value === 'large');
+  });
+
+  // ── DESIGN TOGGLE ─────────────────────────────────────────────
+  document.querySelectorAll('input[name="fdesign"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      document.getElementById('designSubOwn').style.display    = this.value === 'own'    ? 'block' : 'none';
+      document.getElementById('designSubArtist').style.display = this.value === 'artist' ? 'block' : 'none';
+    });
+  });
+
+  // ── FILE INPUT ────────────────────────────────────────────────
+  document.getElementById('fdesignFile').addEventListener('change', function () {
+    var fnEl = document.getElementById('designFileName');
+    if (this.files.length > 0) {
+      fnEl.textContent = this.files[0].name;
+      fnEl.dataset.hasFile = '1';
+    } else {
+      fnEl.textContent = T[lang].noFileChosen;
+      delete fnEl.dataset.hasFile;
+    }
+  });
+
   // ── FORM ───────────────────────────────────────────────────────
   document.getElementById('bookForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var nameEl  = document.getElementById('fname');
-    var emailEl = document.getElementById('femail');
-    var waEl    = document.getElementById('fwa');
-    var sizeEl  = document.getElementById('fsize');
-    var slotEl  = document.getElementById('fslot');
-    var disp    = document.getElementById('slotDisplay');
-    var valid   = true;
+    var nameEl   = document.getElementById('fname');
+    var emailEl  = document.getElementById('femail');
+    var waEl     = document.getElementById('fwa');
+    var sizeEl   = document.getElementById('fsize');
+    var slotEl   = document.getElementById('fslot');
+    var disp     = document.getElementById('slotDisplay');
+    var designEl = document.querySelector('input[name="fdesign"]:checked');
+    var valid    = true;
 
     [nameEl, emailEl, waEl, sizeEl].forEach(function (f) {
       if (!f.value.trim()) { f.classList.add('err'); valid = false; }
@@ -863,18 +1035,27 @@ footer a:hover{color:var(--gold)}
     if (!slotEl.value) { disp.classList.add('err'); valid = false; }
     if (!valid) return;
 
-    fetch('/api/booking', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name:     nameEl.value.trim(),
-        email:    emailEl.value.trim(),
-        whatsapp: waEl.value.trim(),
-        slot:     disp.textContent,
-        size:     sizeEl.value,
-        lang:     lang
-      })
-    }).catch(function () {});
+    var design = designEl ? designEl.value : '';
+    var designNote = '';
+    var fi = document.getElementById('fdesignFile');
+    if (designEl && designEl.value === 'own') {
+      designNote = fi.files.length > 0 ? fi.files[0].name : '';
+    } else if (designEl && designEl.value === 'artist') {
+      designNote = document.getElementById('fdesignDetails').value.trim();
+    }
+
+    var fd = new FormData();
+    fd.append('name',       nameEl.value.trim());
+    fd.append('email',      emailEl.value.trim());
+    fd.append('whatsapp',   waEl.value.trim());
+    fd.append('slot',       disp.textContent);
+    fd.append('size',       sizeEl.value);
+    fd.append('lang',       lang);
+    fd.append('design',     design);
+    fd.append('designNote', designNote);
+    if (design === 'own' && fi.files.length > 0) fd.append('designImage', fi.files[0]);
+
+    fetch('/api/booking', { method: 'POST', body: fd }).catch(function () {});
 
     document.getElementById('formWrap').style.display = 'none';
     document.getElementById('confirm').classList.add('show');
@@ -882,6 +1063,27 @@ footer a:hover{color:var(--gold)}
   document.querySelectorAll('.fgroup input, .fgroup select').forEach(function (f) {
     f.addEventListener('input', function () { f.classList.remove('err'); });
   });
+
+  // ── BOOK ANOTHER ──────────────────────────────────────────────
+  function resetBooking() {
+    document.getElementById('formWrap').style.display = 'block';
+    document.getElementById('confirm').classList.remove('show');
+    document.getElementById('bookForm').reset();
+    selectedSlotKey = '';
+    var disp = document.getElementById('slotDisplay');
+    disp.textContent = T[lang].slotPh;
+    disp.classList.remove('has','err');
+    document.getElementById('fslot').value = '';
+    document.getElementById('sizeNote').classList.remove('show');
+    document.getElementById('designSubOwn').style.display    = 'none';
+    document.getElementById('designSubArtist').style.display = 'none';
+    var fnEl = document.getElementById('designFileName');
+    fnEl.textContent = T[lang].noFileChosen;
+    delete fnEl.dataset.hasFile;
+    buildGrid();
+    document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+  }
+  document.getElementById('bookAnotherBtn').addEventListener('click', resetBooking);
 
   // ── INIT ───────────────────────────────────────────────────────
   applyLang(lang);
